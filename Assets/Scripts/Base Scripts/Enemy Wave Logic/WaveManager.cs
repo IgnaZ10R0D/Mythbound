@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class WaveManager : MonoBehaviour
 {
     public List<CurrentWave> currentWaves = new List<CurrentWave>();
     public GameObject bossDialogueObject;
+    public GameObject victoryPanel; 
 
     private MusicManager musicManager;
     private GameManager gameManager;
@@ -17,6 +17,7 @@ public class WaveManager : MonoBehaviour
     {
         musicManager = FindFirstObjectByType<MusicManager>();
         gameManager = FindFirstObjectByType<GameManager>();
+
         foreach (CurrentWave wave in currentWaves)
         {
             if (wave != null)
@@ -28,6 +29,11 @@ public class WaveManager : MonoBehaviour
         if (bossDialogueObject != null)
         {
             bossDialogueObject.SetActive(false);
+        }
+
+        if (victoryPanel != null)
+        {
+            victoryPanel.SetActive(false); 
         }
     }
 
@@ -42,7 +48,7 @@ public class WaveManager : MonoBehaviour
 
         if (currentWaves.Count == 1 && !bossFightStarted && !dialogueTriggered)
         {
-            dialogueTriggered = true; 
+            dialogueTriggered = true;
 
             if (bossDialogueObject != null)
             {
@@ -53,17 +59,13 @@ public class WaveManager : MonoBehaviour
                 {
                     dm.BeginDialogue();
                 }
-                else
-                {
-                    Debug.LogWarning("No se encontró DialogueManager en el objeto del jefe.");
-                }
             }
         }
 
         if (currentWaves.Count == 0 && !levelCleared)
         {
             levelCleared = true;
-            ClearedStage();
+            ShowVictoryPanel(); 
         }
     }
 
@@ -93,16 +95,12 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    void ClearedStage()
+    void ShowVictoryPanel()
     {
-        Invoke("LoadNextScene", 5f);
-    }
-
-    void LoadNextScene()
-    {
-        levelCleared = false;
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex + 1);
+        if (victoryPanel != null)
+        {
+            victoryPanel.SetActive(true);
+        }
     }
 
     public void StartBossFight()
@@ -111,11 +109,7 @@ public class WaveManager : MonoBehaviour
         {
             bossFightStarted = true;
             musicManager.PlayNextTrack();
-            Debug.Log("Boss Fight Started via DialogueManager");
         }
     }
 }
-
-
-
 

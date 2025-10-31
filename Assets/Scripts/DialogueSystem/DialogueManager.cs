@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
     public DialogueImage[] leftImages;
     public DialogueImage[] rightImages;
 
-    [Header("Asignar manualmente")]
+    [Header("Portraits and Dialogue")]
     public Image leftImageUI;
     public Image rightImageUI;
     public Text dialogueText;
@@ -36,7 +36,6 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogueText == null)
         {
-            Debug.LogError("Texto de diálogo no asignado.");
             return;
         }
 
@@ -50,7 +49,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (!dialogueStarted) return;
 
-        // Usar sistema de InputManager personalizado
         if (InputManager.Instance != null && Input.GetKeyDown(InputManager.Instance.GetKey("Shoot")))
         {
             NextDialogue();
@@ -68,7 +66,7 @@ public class DialogueManager : MonoBehaviour
         DialogueLine line = dialogueLines[index];
         if (line == null)
         {
-            Debug.LogWarning($"Línea de diálogo {index} es null. Saltando...");
+            Debug.LogWarning($"Lï¿½nea de diï¿½logo {index} es null. Saltando...");
             currentIndex++;
             ShowDialogue(currentIndex);
             return;
@@ -104,7 +102,7 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        Debug.Log("Fin del diálogo, activando boss...");
+        Debug.Log("Fin del diï¿½logo, activando boss...");
         Time.timeScale = 1;
         dialogueStarted = false;
 
@@ -117,12 +115,5 @@ public class DialogueManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
-
-
-
-
-
-
-
 
 
