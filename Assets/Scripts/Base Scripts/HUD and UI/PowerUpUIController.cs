@@ -12,6 +12,10 @@ public class PowerUpUIController : MonoBehaviour
     [SerializeField] private GameObject unlockTextPrefab; 
     [SerializeField] private Transform unlockTextParent;  
 
+    [Header("Unlock Sound")]
+    [SerializeField] private AudioClip unlockSound;
+    [SerializeField] private AudioSource audioSource; 
+
     private Dictionary<string, Image> activeIcons = new Dictionary<string, Image>();
     private Dictionary<string, bool> hasUnlocked = new Dictionary<string, bool>();
     private PowerUpData[] powerUps;
@@ -42,7 +46,7 @@ public class PowerUpUIController : MonoBehaviour
             GameObject iconGO = Instantiate(iconPrefab, iconParent);
             Image img = iconGO.GetComponent<Image>();
             img.sprite = data.icon;
-            img.color = new Color(1f, 1f, 1f, 0.3f);
+            img.color = Color.red * 0.7f;
             activeIcons[data.displayName] = img;
 
             hasUnlocked[data.displayName] = false;
@@ -59,20 +63,22 @@ public class PowerUpUIController : MonoBehaviour
 
             Image icon = activeIcons[data.displayName];
             bool available = currentPoints >= data.thresholdPoints;
+            bool wasUnlocked = hasUnlocked[data.displayName];
 
-            if (available && !hasUnlocked[data.displayName])
+            if (available && !wasUnlocked)
             {
                 hasUnlocked[data.displayName] = true;
                 ShowUnlockText(data.displayName);
+                PlayUnlockSound();
             }
-            else if (!available && hasUnlocked[data.displayName])
+            else if (!available && wasUnlocked)
             {
                 hasUnlocked[data.displayName] = false;
                 if (currentlySelected == data.powerUp as ActiveLauncher)
                     currentlySelected = null; 
             }
 
-            icon.color = available ? Color.white : new Color(1f,1f,1f,0.3f);
+            icon.color = available ? Color.white : (Color.red * 0.7f);
 
             if (available)
                 anyAvailable = true;
@@ -116,12 +122,11 @@ public class PowerUpUIController : MonoBehaviour
         if (txt == null) yield break;
 
         Vector3 originalScale = textGO.transform.localScale;
-        Color originalColor = txt.color;
         float timer = 0f;
 
         while (timer < duration)
         {
-            if (txt == null) yield break; // ? protección extra si el objeto fue destruido
+            if (txt == null) yield break; 
 
             timer += Time.deltaTime;
             float t = timer / duration;
@@ -141,6 +146,24 @@ public class PowerUpUIController : MonoBehaviour
             Destroy(textGO);
     }
 
+    private void PlayUnlockSound()
+    {
+        if (unlockSound == null) return;
+
+        if (audioSource == null)
+        {
+            AudioSource temp = gameObject.AddComponent<AudioSource>();
+            temp.playOnAwake = false;
+            temp.spatialBlend = 0f;
+            temp.PlayOneShot(unlockSound);
+            Destroy(temp, unlockSound.length);
+        }
+        else
+        {
+            audioSource.PlayOneShot(unlockSound);
+        }
+    }
+
     public void HighlightSelectedPowerUp(ActiveLauncher selectedPowerUp)
     {
         currentlySelected = selectedPowerUp;
@@ -154,7 +177,7 @@ public class PowerUpUIController : MonoBehaviour
             if (data.powerUp == selectedPowerUp)
                 icon.color = Color.yellow; 
             else
-                icon.color = hasUnlocked[data.displayName] ? Color.white : new Color(1f,1f,1f,0.3f);
+                icon.color = hasUnlocked[data.displayName] ? Color.white : (Color.red * 0.7f);
         }
     }
 
@@ -165,9 +188,10 @@ public class PowerUpUIController : MonoBehaviour
             if (!activeIcons.ContainsKey(data.displayName)) continue;
 
             Image icon = activeIcons[data.displayName];
-            icon.color = hasUnlocked[data.displayName] ? Color.white : new Color(1f,1f,1f,0.3f);
+            icon.color = hasUnlocked[data.displayName] ? Color.white : (Color.red * 0.7f);
         }
     }
 }
+
 
 

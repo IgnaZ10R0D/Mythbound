@@ -6,15 +6,17 @@ public class ActiveLauncher : PowerUp
 
     public override void UsePowerUp()
     {
-        if (activePrefab != null)
-        {
-            GameObject instance = Instantiate(activePrefab, transform.position, Quaternion.identity);
+        if (activePrefab == null) return;
 
-            if (instance.transform.localScale == Vector3.zero)
-                instance.transform.localScale = Vector3.one;
-        }
+        Player player = FindFirstObjectByType<Player>();
+        Vector3 spawnPos = player != null ? player.transform.position : transform.position;
+        GameObject instance = Instantiate(activePrefab, spawnPos, Quaternion.identity);
+
+        if (instance.transform.localScale == Vector3.zero)
+            instance.transform.localScale = Vector3.one;
     }
 }
+
 
 
 

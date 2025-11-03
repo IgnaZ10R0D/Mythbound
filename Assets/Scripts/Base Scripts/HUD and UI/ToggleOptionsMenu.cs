@@ -2,17 +2,21 @@ using UnityEngine;
 
 public class ToggleOptionsMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject optionsPanel;   // Panel de opciones
-    [SerializeField] private GameObject mainPanel;      // Otro panel (como el menú principal)
+    [SerializeField] private MenuTransitionController transitionController;
+    [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private GameObject mainPanel;
 
     private bool isOptionsOpen = false;
 
     public void ToggleMenu()
     {
-        isOptionsOpen = !isOptionsOpen;
+        if (isOptionsOpen)
+            transitionController.TransitionToPanel(optionsPanel, mainPanel);
+        else
+            transitionController.TransitionToPanel(mainPanel, optionsPanel);
 
-        optionsPanel.SetActive(isOptionsOpen);
-        mainPanel.SetActive(!isOptionsOpen);
+        isOptionsOpen = !isOptionsOpen;
     }
 }
+
 

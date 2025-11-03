@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class OptionsMenu : MonoBehaviour
 {
+    [Header("Campos de entrada (solo lectura)")]
     [SerializeField] private InputField moveUpInput;
     [SerializeField] private InputField moveDownInput;
     [SerializeField] private InputField moveLeftInput;
@@ -13,63 +15,89 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private InputField activeSpellCardInput;
     [SerializeField] private InputField cycleSpellCardInput;
 
-    private string currentAction; 
-    private InputField currentInputField; 
+    [Header("Botones asociados a cada campo")]
+    [SerializeField] private Button moveUpButton;
+    [SerializeField] private Button moveDownButton;
+    [SerializeField] private Button moveLeftButton;
+    [SerializeField] private Button moveRightButton;
+    [SerializeField] private Button shootButton;
+    [SerializeField] private Button focusFireButton;
+    [SerializeField] private Button activeSpellCardButton;
+    [SerializeField] private Button cycleSpellCardButton;
 
+    [Header("Selección por defecto")]
+    [SerializeField] private GameObject defaultSelectedButton;
+
+    private string currentAction;
+    private InputField currentInputField;
+    private Button currentButton;
 
     void Start()
     {
+        SetReadOnly(moveUpInput, moveDownInput, moveLeftInput, moveRightInput,
+                    shootInput, focusFireInput, activeSpellCardInput, cycleSpellCardInput);
+
+        // Cargar valores iniciales
         LoadBindings();
 
-        SetupInputField(moveUpInput, "MoveUp");
-        SetupInputField(moveDownInput, "MoveDown");
-        SetupInputField(moveLeftInput, "MoveLeft");
-        SetupInputField(moveRightInput, "MoveRight");
-        SetupInputField(shootInput, "Shoot");
-        SetupInputField(focusFireInput, "FocusFireMode");
-        SetupInputField(activeSpellCardInput, "ActiveSpellCard");
-        SetupInputField(cycleSpellCardInput, "CycleSpellCard");
+        SetupButton(moveUpButton, moveUpInput, "MoveUp");
+        SetupButton(moveDownButton, moveDownInput, "MoveDown");
+        SetupButton(moveLeftButton, moveLeftInput, "MoveLeft");
+        SetupButton(moveRightButton, moveRightInput, "MoveRight");
+        SetupButton(shootButton, shootInput, "Shoot");
+        SetupButton(focusFireButton, focusFireInput, "FocusFireMode");
+        SetupButton(activeSpellCardButton, activeSpellCardInput, "ActiveSpellCard");
+
+        SetupButton(cycleSpellCardButton, cycleSpellCardInput, "CycleSpell");
     }
 
-    private void SetupInputField(InputField inputField, string action)
+    private void SetReadOnly(params InputField[] fields)
     {
-        EventTrigger trigger = inputField.gameObject.AddComponent<EventTrigger>();
-
-        EventTrigger.Entry entry = new EventTrigger.Entry
+        foreach (var f in fields)
         {
-            eventID = EventTriggerType.PointerClick
-        };
-
-        entry.callback.AddListener((eventData) => StartRebinding(action, inputField));
-        trigger.triggers.Add(entry);
+            if (f != null)
+            {
+                f.readOnly = true;
+                f.interactable = false; 
+            }
+        }
     }
 
-    private void StartRebinding(string action, InputField inputField)
+    private void SetupButton(Button button, InputField targetField, string action)
+    {
+        if (button == null || targetField == null) return;
+        button.onClick.AddListener(() => StartRebinding(action, targetField, button));
+    }
+
+    private void StartRebinding(string action, InputField inputField, Button button)
     {
         currentAction = action;
         currentInputField = inputField;
+        currentButton = button;
+
         inputField.text = "Press a Key...";
         StartCoroutine(WaitForKeyPress());
     }
 
-    private System.Collections.IEnumerator WaitForKeyPress()
+    private IEnumerator WaitForKeyPress()
     {
         yield return null;
 
-        while (!Input.anyKeyDown) 
-        {
+        while (!Input.anyKeyDown)
             yield return null;
-        }
 
         foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(key))
             {
                 InputManager.Instance.SetKey(currentAction, key);
-                currentInputField.text = key.ToString(); 
+                currentInputField.text = key.ToString();
                 break;
             }
         }
+
+        if (EventSystem.current != null && currentButton != null)
+            EventSystem.current.SetSelectedGameObject(currentButton.gameObject);
     }
 
     public void LoadBindings()
@@ -81,15 +109,21 @@ public class OptionsMenu : MonoBehaviour
         shootInput.text = InputManager.Instance.GetKey("Shoot").ToString();
         focusFireInput.text = InputManager.Instance.GetKey("FocusFireMode").ToString();
         activeSpellCardInput.text = InputManager.Instance.GetKey("ActiveSpellCard").ToString();
-        cycleSpellCardInput.text = InputManager.Instance.GetKey("CycleSpellCard").ToString();
+
+        cycleSpellCardInput.text = InputManager.Instance.GetKey("CycleSpell").ToString();
     }
 
     public void SaveBindings()
     {
         InputManager.Instance.SaveControls();
     }
-}
 
+    private void OnEnable()
+    {
+        if (EventSystem.current != null && defaultSelectedButton != null)
+            EventSystem.current.SetSelectedGameObject(defaultSelectedButton);
+    }
+}
 
 
 
