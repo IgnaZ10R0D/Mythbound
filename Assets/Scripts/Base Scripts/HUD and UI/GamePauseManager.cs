@@ -1,17 +1,29 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GamePauseManager : MonoBehaviour
 {
     [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private GameObject firstSelectedButton; 
+
+    private bool isPaused = false;
 
     void Start()
     {
-        pausePanel.SetActive(false);
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
+
+        if (playerHealth == null)
+            playerHealth = FindFirstObjectByType<PlayerHealth>();
     }
 
     void Update()
     {
+        if (playerHealth != null && playerHealth.LivesRemaining <= 0)
+            return;
+
         if (Input.GetKeyDown(pauseKey))
         {
             TogglePause();
@@ -20,16 +32,27 @@ public class GamePauseManager : MonoBehaviour
 
     private void TogglePause()
     {
-        if (Time.timeScale == 1)
+        isPaused = !isPaused;
+
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (pausePanel != null)
+            pausePanel.SetActive(isPaused);
+
+        if (isPaused)
         {
-            Time.timeScale = 0;
-            pausePanel.SetActive(true);
+            if (EventSystem.current != null && firstSelectedButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(firstSelectedButton);
+            }
         }
         else
         {
-            Time.timeScale = 1;
-            pausePanel.SetActive(false);
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
         }
     }
 }
+
 

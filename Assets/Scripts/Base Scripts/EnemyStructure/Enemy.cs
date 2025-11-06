@@ -15,18 +15,26 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyAnimationProfile[] animationProfiles;
     private EnemyAnimationController animationController;
 
+    [Header("Damage Flash")]
+    [SerializeField] private Color flashColor = Color.white;
+    [SerializeField] private int flashFrames = 1; 
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private bool isFlashing = false;
+
     public float CurrentHealth => _health[_currentHealthIndex];
     public float MaxHealth => _health.Length > 0 ? _health[_currentHealthIndex] : 0f;
 
     void Start()
     {
         animationController = GetComponent<EnemyAnimationController>();
-        if (animationController != null && animationProfiles.Length > 0)
-        {
-            animationController.SetAnimationProfile(animationProfiles[0]);
-        }
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        var scoreHandler = FindAnyObjectByType<ScoreHandler>();
+        if (spriteRenderer != null)
+            originalColor = spriteRenderer.color;
+
+        if (animationController != null && animationProfiles.Length > 0)
+            animationController.SetAnimationProfile(animationProfiles[0]);
     }
 
     void Update()
@@ -34,11 +42,8 @@ public class Enemy : MonoBehaviour
         if (HealthIndex != _currentHealthIndex)
         {
             HealthIndex = _currentHealthIndex;
-
             if (animationController != null && animationProfiles.Length > HealthIndex)
-            {
                 animationController.SetAnimationProfile(animationProfiles[HealthIndex]);
-            }
         }
 
         CheckBoundaries();
@@ -47,31 +52,51 @@ public class Enemy : MonoBehaviour
         {
             _currentHealthIndex++;
             if (_currentHealthIndex >= _health.Length)
-            {
                 Die();
-            }
         }
     }
 
     public void TakeDamage(float damage)
     {
         EnemySounds enemySounds = GetComponent<EnemySounds>();
+
         if (_currentHealthIndex < _health.Length)
         {
             _health[_currentHealthIndex] -= damage;
+
             if (enemySounds != null)
-            {
                 enemySounds.PlaySound("TakeDamage");
-            }
+
+            // 👇 Flash visual solo si no fue destruido todavía
+            if (!isFlashing && _currentHealthIndex < _health.Length)
+                StartCoroutine(DamageFlash());
+
             if (_health[_currentHealthIndex] <= 0)
             {
                 _currentHealthIndex++;
                 if (_currentHealthIndex >= _health.Length)
-                {
                     Die();
-                }
             }
         }
+    }
+
+    private System.Collections.IEnumerator DamageFlash()
+    {
+        if (spriteRenderer == null) yield break;
+
+        isFlashing = true;
+
+        // Color flash instantáneo
+        spriteRenderer.color = flashColor;
+
+        // Esperar 1 frame (o más, si lo configurás)
+        for (int i = 0; i < flashFrames; i++)
+            yield return null;
+
+        // Restaurar color original
+        spriteRenderer.color = originalColor;
+
+        isFlashing = false;
     }
 
     private void Die()
@@ -90,19 +115,14 @@ public class Enemy : MonoBehaviour
         {
             var scoreHandler = FindFirstObjectByType<ScoreHandler>();
             if (scoreHandler != null)
-            {
                 scoreHandler.AddScore(scoreToAdd);
-            }
+
             if (dropItem != null)
-            {
                 Instantiate(dropItem, transform.position, Quaternion.identity);
-            }
+
             if (particlePrefab != null)
-            {
                 Instantiate(particlePrefab, transform.position, Quaternion.identity);
-            }
         }
-        ;
 
         Destroy(gameObject);
     }
@@ -131,5 +151,6 @@ public class Enemy : MonoBehaviour
         }
     }
 }
+
 
 

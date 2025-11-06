@@ -1,19 +1,31 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class StartGame : MonoBehaviour
 {
-	[SerializeField] private MenuTransitionController transitionController;
+    [SerializeField] private MenuTransitionController transitionController;
+
     public void OnClickStartGame()
     {
-	    transitionController.TransitionToScene("Stage 1");
+        StartCoroutine(ExecuteAfterFrame(() => 
+            transitionController.TransitionToScene("Stage 1")
+        ));
     }
-	private void OnEnable()
-	{
-		if (EventSystem.current != null)
-		{
-			EventSystem.current.SetSelectedGameObject(gameObject);
-		}
-	}
+
+    private IEnumerator ExecuteAfterFrame(System.Action action)
+    {
+        yield return null; 
+        action?.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(gameObject);
+        }
+    }
 }
+
+

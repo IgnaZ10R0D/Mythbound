@@ -47,6 +47,9 @@ public class MenuTransitionController : MonoBehaviour
 
         mainMenuPanel.gameObject.SetActive(true);
 
+        // Espera un frame para que el click se registre
+        yield return null;
+
         Coroutine slide = null;
         if (slidingPanels.Contains(mainMenuPanel.gameObject))
             slide = StartCoroutine(SlideOut(mainMenuPanel, slideOffset));
@@ -134,5 +137,6 @@ public class MenuTransitionController : MonoBehaviour
         }
     }
 }
+
 
 
