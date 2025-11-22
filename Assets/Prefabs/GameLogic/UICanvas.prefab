@@ -561,6 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7de7e5a50674914f947717f87a0752f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionController: {fileID: 0}
   optionsPanel: {fileID: 790283514940607754}
   mainPanel: {fileID: 2853052939438581283}
 --- !u!1 &1007775896176819375
@@ -1463,7 +1464,6 @@ GameObject:
   - component: {fileID: 3067773029941175511}
   - component: {fileID: 7594505833368679919}
   - component: {fileID: 6334264014831983096}
-  - component: {fileID: 7272095176316653687}
   m_Layer: 5
   m_Name: DialoguePanel
   m_TagString: Untagged
@@ -1532,38 +1532,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7272095176316653687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2435789730034787860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb90e80eb896e142b032fe22fb15643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueLines:
-  - text: jaja, esto es una linea
-    color: {r: 0.764151, g: 0.061201416, b: 0.046858337, a: 0}
-    alphaOverride: 1
-  - text: jaja, esto es otra linea
-    color: {r: 0.04705882, g: 0.10343093, b: 0.7647059, a: 0}
-    alphaOverride: 1
-  leftImages:
-  - sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    isTransparent: 0
-  - sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    isTransparent: 1
-  rightImages:
-  - sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    isTransparent: 1
-  - sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    isTransparent: 0
-  leftImageUI: {fileID: 838101476558311681}
-  rightImageUI: {fileID: 7291387769689196700}
-  dialogueText: {fileID: 7336357453562527926}
 --- !u!1 &2646536355524879873
 GameObject:
   m_ObjectHideFlags: 0
@@ -3633,7 +3601,6 @@ GameObject:
   - component: {fileID: 2607644196843927117}
   - component: {fileID: 6611688836027785757}
   - component: {fileID: 8213222687692829992}
-  - component: {fileID: 716713540928231106}
   m_Layer: 5
   m_Name: DialogueLinePanel
   m_TagString: Untagged
@@ -3698,38 +3665,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &716713540928231106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8411971995520094912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb90e80eb896e142b032fe22fb15643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueLines:
-  - text: jaja, esto es una linea
-    color: {r: 0.764151, g: 0.061201416, b: 0.046858337, a: 0}
-    alphaOverride: 1
-  - text: jaja, esto es otra linea
-    color: {r: 0.04705882, g: 0.10343093, b: 0.7647059, a: 0}
-    alphaOverride: 1
-  leftImages:
-  - sprite: {fileID: 0}
-    isTransparent: 0
-  - sprite: {fileID: 0}
-    isTransparent: 1
-  rightImages:
-  - sprite: {fileID: 0}
-    isTransparent: 1
-  - sprite: {fileID: 0}
-    isTransparent: 0
-  leftImageUI: {fileID: 838101476558311681}
-  rightImageUI: {fileID: 838101476558311681}
-  dialogueText: {fileID: 0}
 --- !u!1 &8942594449336975164
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,6 +3806,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseKey: 27
   pausePanel: {fileID: 2853052939438581283}
+  playerHealth: {fileID: 0}
+  firstSelectedButton: {fileID: 0}
 --- !u!114 &921844587286183848
 MonoBehaviour:
   m_ObjectHideFlags: 0

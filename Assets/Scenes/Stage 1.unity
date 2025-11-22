@@ -4589,7 +4589,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -7041,26 +7041,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1481751865058614830, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: colliderDisableTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1481751865058614830, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: healthSoundKeys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1481751865058614830, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: 'healthSoundKeys.Array.data[0]'
-      value: LoseALife
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584566787087667419, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: attackSoundKeys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584566787087667419, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: 'attackSoundKeys.Array.data[0]'
-      value: BasicAttack
-      objectReference: {fileID: 0}
     - target: {fileID: 5711936539688961429, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7105,156 +7085,26 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1768820958}
-    - target: {fileID: 6433225369837076251, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: attackSoundKeys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433225369837076251, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      propertyPath: 'attackSoundKeys.Array.data[0]'
-      value: BasicAttack
-      objectReference: {fileID: 0}
     - target: {fileID: 7712064403466066315, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6433225369837076251, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7712064403466066315, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 661775334}
-    - targetCorrespondingSourceObject: {fileID: 5454497752446348263, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1281247488}
-    - targetCorrespondingSourceObject: {fileID: 6878528571529118759, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1281247487}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
 --- !u!114 &661775332 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1481751865058614830, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
   m_PrefabInstance: {fileID: 661775331}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661775333}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c7f5727925da384490880da4574e6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &661775333 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7712064403466066315, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-  m_PrefabInstance: {fileID: 661775331}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &661775334
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661775333}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -6550935736765022509, guid: c7b3176b2e959984ba3e4ff288f5c790, type: 2}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &661775335 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6878528571529118776, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-  m_PrefabInstance: {fileID: 661775331}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &661775336 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5454497752446348280, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-  m_PrefabInstance: {fileID: 661775331}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &675674785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7625,6 +7475,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   animationProfile: {fileID: 0}
+--- !u!114 &689748580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7336357453562527926, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+  m_PrefabInstance: {fileID: 1412385214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &689748581 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7291387769689196700, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+  m_PrefabInstance: {fileID: 1412385214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &689748582 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 838101476558311681, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+  m_PrefabInstance: {fileID: 1412385214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &692645791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5331044301964295380, guid: 3a3b06c9991e03447a0ed90133fd4a29, type: 3}
@@ -15845,50 +15728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 886343901}
   animationProfile: {fileID: 0}
---- !u!1 &1281247485 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6878528571529118759, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-  m_PrefabInstance: {fileID: 661775331}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1281247486 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5454497752446348263, guid: 28a898b27aa1cad4bb5a13f77f54ed86, type: 3}
-  m_PrefabInstance: {fileID: 661775331}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1281247487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281247485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3abdb7025aba7774b8981bbd15428b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5770949305624217130, guid: ab592faae361b144dba15d8657dae27f, type: 3}
-  firePoint: {fileID: 661775335}
-  shootDelay: 0.1
-  offsetX: 0.5
-  offsetY: 1.4
---- !u!114 &1281247488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281247486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3abdb7025aba7774b8981bbd15428b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5770949305624217130, guid: ab592faae361b144dba15d8657dae27f, type: 3}
-  firePoint: {fileID: 661775336}
-  shootDelay: 0.1
-  offsetX: -0.5
-  offsetY: 1.4
 --- !u!1001 &1310115871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18230,6 +18069,60 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 59.512
       objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[0].text
+      value: Eeeeeh... this is odd... I'm pretty sure this wasn't on the map. Is
+        this a shortcut or something?
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[1].text
+      value: Oh. What a surprise. A human crossing my bridge without permission.
+        The gall of humans these days...
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[2].text
+      value: Oh! Uh... sorry? I guess? Wait. Since when do you own this bridge?
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[3].text
+      value: Oh! Uh... sorry? I guess? Wait. Since when do you own this bridge?
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[2].color.b
+      value: 0.17582655
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[2].color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[2].color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[3].color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[3].color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[3].color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[2].alphaOverride
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 716713540928231106, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[3].alphaOverride
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 732091872802149256, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: playerHealth
       value: 
@@ -18320,8 +18213,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2435789730034787860, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2823001531291271546, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     - target: {fileID: 2951220020691255294, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5000003
@@ -18426,6 +18323,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5733232011214897822, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
+    - target: {fileID: 5787653277055335165, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     - target: {fileID: 6418627551169529961, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -18518,6 +18423,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.000579834
       objectReference: {fileID: 0}
+    - target: {fileID: 7085213997734965305, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     - target: {fileID: 7130637310829548695, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: audioSource
       value: 
@@ -18539,6 +18448,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7628849239691000561, guid: 1a9cfb2a0102c27459fdad9a911df0c9, type: 3}
     - target: {fileID: 7272095176316653687, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[0].text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272095176316653687, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: dialogueLines.Array.data[1].text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272095176316653687, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: rightImages.Array.data[0].sprite
       value: 
       objectReference: {fileID: 2549352025276322940, guid: 16b7c8050b9920446b078b778bbacea8, type: 3}
@@ -18554,6 +18471,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 2549352025276322940, guid: 16b7c8050b9920446b078b778bbacea8, type: 3}
+    - target: {fileID: 7336357453562527926, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     - target: {fileID: 7641735142984398988, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: m_SizeDelta.x
       value: -0.0014648
@@ -18570,6 +18491,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8026250182564340710, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     - target: {fileID: 8134739294967287436, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       propertyPath: m_Colors.m_NormalColor.b
       value: 1
@@ -18614,6 +18539,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9120374554437666154, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
+    - target: {fileID: 9216811278511727827, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 790283514940607754, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
@@ -18629,6 +18562,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1234395073}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2435789730034787860, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1942760036}
     - targetCorrespondingSourceObject: {fileID: 8583430619366185874, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1412385218}
@@ -23231,7 +23167,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: d066cff132186184e89898d28aec54ab, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -24834,6 +24770,130 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2435789730034787860, guid: 17dab5cc3d30d3347b03feeb9bb2fb03, type: 3}
   m_PrefabInstance: {fileID: 1412385214}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1942760036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942760035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb90e80eb896e142b032fe22fb15643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueLines:
+  - text: Eeeeeh... this is odd... I'm pretty sure this wasn't on the map. Is this
+      a shortcut or something?
+    color: {r: 1, g: 0, b: 0, a: 1}
+    alphaOverride: 1
+  - text: Oh. What a surprise. A human crossing my bridge without permission. The
+      gall of humans these days...
+    color: {r: 0, g: 0, b: 1, a: 1}
+    alphaOverride: 1
+  - text: Oh! Uh... sorry? I guess? Wait. Since when do you own this bridge?
+    color: {r: 1, g: 0, b: 0.17582655, a: 0}
+    alphaOverride: 1
+  - text: Since these candles started to glow... however everybody seems dedicated
+      to crossing the bridge anyways. I hate them.
+    color: {r: 0, g: 0, b: 1, a: 0}
+    alphaOverride: 1
+  - text: I just wanted to follow the path but... I think I got lost.
+    color: {r: 1, g: 0, b: 0, a: 0}
+    alphaOverride: 1
+  - text: Everybody says that. You're probably no different. Came to mock me like
+      those Miko?
+    color: {r: 0, g: 0, b: 1, a: 1}
+    alphaOverride: 1
+  - text: Err... Lady, I have no idea what you're talking about. I'm just following
+      orders.
+    color: {r: 1, g: 0, b: 0, a: 1}
+    alphaOverride: 1
+  - text: Wait, they're not orders. Instructions? It was more like instinct...
+    color: {r: 1, g: 0, b: 0, a: 1}
+    alphaOverride: 1
+  - text: Great, now I'm confused too.
+    color: {r: 1, g: 0, b: 0, a: 1}
+    alphaOverride: 1
+  - text: So, not only a trespasser, but also an idiot... Oh goody... one of those
+      days...
+    color: {r: 0, g: 0, b: 1, a: 1}
+    alphaOverride: 1
+  - text: Well... Little human, if you want to cross. You better prove you're not
+      just another errand boy for a pesky fox.
+    color: {r: 0, g: 0, b: 1, a: 1}
+    alphaOverride: 1
+  - text: Wait a sec. How did you even figure out the fox part?
+    color: {r: 1, g: 0, b: 0, a: 1}
+    alphaOverride: 1
+  - text: Human, the stench of her is all over you. And that makes me jealous...
+      A LOT!
+    color: {r: 0, g: 0, b: 1, a: 1}
+    alphaOverride: 1
+  - text: ...The risk I took was calculated. But man, am I bad at math.
+    color: {r: 1, g: 0, b: 0, a: 1}
+    alphaOverride: 1
+  leftImages:
+  - sprite: {fileID: 7628849239691000561, guid: 1a9cfb2a0102c27459fdad9a911df0c9, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: 7628849239691000561, guid: 1a9cfb2a0102c27459fdad9a911df0c9, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -6097340706306594537, guid: ac9726a943261874989ce49dacacd1bd, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -6070916842771879722, guid: 7180c4215007d87478757ab09feecfce, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -6097340706306594537, guid: ac9726a943261874989ce49dacacd1bd, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -6097340706306594537, guid: ac9726a943261874989ce49dacacd1bd, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -2164515400223056680, guid: ca03bef36c6864d4e93b8828baa0c10f, type: 3}
+    isTransparent: 0
+  rightImages:
+  - sprite: {fileID: 2549352025276322940, guid: 16b7c8050b9920446b078b778bbacea8, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: 2549352025276322940, guid: 16b7c8050b9920446b078b778bbacea8, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: 2549352025276322940, guid: 16b7c8050b9920446b078b778bbacea8, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: 7163847937795784106, guid: 0a7a57391a624bf4fa032f46870e3089, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: -5022607822192990484, guid: 57fc181c578d63648b4eb61f3099752f, type: 3}
+    isTransparent: 1
+  - sprite: {fileID: 7163847937795784106, guid: 0a7a57391a624bf4fa032f46870e3089, type: 3}
+    isTransparent: 0
+  - sprite: {fileID: 7163847937795784106, guid: 0a7a57391a624bf4fa032f46870e3089, type: 3}
+    isTransparent: 1
+  leftImageUI: {fileID: 689748582}
+  rightImageUI: {fileID: 689748581}
+  dialogueText: {fileID: 689748580}
 --- !u!1001 &1943630096
 PrefabInstance:
   m_ObjectHideFlags: 0
