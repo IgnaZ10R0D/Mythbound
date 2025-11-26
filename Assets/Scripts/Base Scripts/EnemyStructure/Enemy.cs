@@ -22,6 +22,12 @@ public class Enemy : MonoBehaviour
     private Color originalColor;
     private bool isFlashing = false;
 
+    [Header("Audio Settings")]
+    [SerializeField] private string[] takeDamageKeys = { "TakeDamage" };
+    [SerializeField] private string[] dieKeys = { "Die" };
+    private int currentTakeDamageIndex = 0;
+    private int currentDieIndex = 0;
+
     public float CurrentHealth => _health[_currentHealthIndex];
     public float MaxHealth => _health.Length > 0 ? _health[_currentHealthIndex] : 0f;
 
@@ -58,25 +64,20 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        EnemySounds enemySounds = GetComponent<EnemySounds>();
+        if (_currentHealthIndex >= _health.Length) return;
 
-        if (_currentHealthIndex < _health.Length)
+        _health[_currentHealthIndex] -= damage;
+
+        PlaySound(takeDamageKeys, ref currentTakeDamageIndex);
+
+        if (!isFlashing)
+            StartCoroutine(DamageFlash());
+
+        if (_health[_currentHealthIndex] <= 0)
         {
-            _health[_currentHealthIndex] -= damage;
-
-            if (enemySounds != null)
-                enemySounds.PlaySound("TakeDamage");
-
-            // 👇 Flash visual solo si no fue destruido todavía
-            if (!isFlashing && _currentHealthIndex < _health.Length)
-                StartCoroutine(DamageFlash());
-
-            if (_health[_currentHealthIndex] <= 0)
-            {
-                _currentHealthIndex++;
-                if (_currentHealthIndex >= _health.Length)
-                    Die();
-            }
+            _currentHealthIndex++;
+            if (_currentHealthIndex >= _health.Length)
+                Die();
         }
     }
 
@@ -85,44 +86,28 @@ public class Enemy : MonoBehaviour
         if (spriteRenderer == null) yield break;
 
         isFlashing = true;
-
-        // Color flash instantáneo
         spriteRenderer.color = flashColor;
 
-        // Esperar 1 frame (o más, si lo configurás)
         for (int i = 0; i < flashFrames; i++)
             yield return null;
 
-        // Restaurar color original
         spriteRenderer.color = originalColor;
-
         isFlashing = false;
     }
 
     private void Die()
     {
-        bool allHealthEmpty = true;
-        foreach (float healthValue in _health)
-        {
-            if (healthValue > 0f)
-            {
-                allHealthEmpty = false;
-                break;
-            }
-        }
+        PlaySound(dieKeys, ref currentDieIndex);
 
-        if (allHealthEmpty)
-        {
-            var scoreHandler = FindFirstObjectByType<ScoreHandler>();
-            if (scoreHandler != null)
-                scoreHandler.AddScore(scoreToAdd);
+        var scoreHandler = FindFirstObjectByType<ScoreHandler>();
+        if (scoreHandler != null)
+            scoreHandler.AddScore(scoreToAdd);
 
-            if (dropItem != null)
-                Instantiate(dropItem, transform.position, Quaternion.identity);
+        if (dropItem != null)
+            Instantiate(dropItem, transform.position, Quaternion.identity);
 
-            if (particlePrefab != null)
-                Instantiate(particlePrefab, transform.position, Quaternion.identity);
-        }
+        if (particlePrefab != null)
+            Instantiate(particlePrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
     }
@@ -150,7 +135,18 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void PlaySound(string[] keys, ref int currentIndex)
+    {
+        if (keys != null && keys.Length > 0 && GameplaySoundsManager.Instance != null)
+        {
+            string keyToPlay = keys[currentIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+            currentIndex = (currentIndex + 1) % keys.Length;
+        }
+    }
 }
+
 
 
 

@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: -4043903449327180827}
   - component: {fileID: 3102846348418101724}
   - component: {fileID: 219477412969637607}
-  - component: {fileID: -8611430395403903284}
   - component: {fileID: -7467600529598486517}
   m_Layer: 0
   m_Name: TestEnemy
@@ -56,6 +55,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -77,6 +81,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -99,6 +104,7 @@ CircleCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7109672332841504189}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -122,13 +128,13 @@ CircleCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
   m_Radius: 0.5
 --- !u!50 &428214490733231266
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -139,8 +145,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -172,6 +178,12 @@ MonoBehaviour:
   dropItem: {fileID: 1579773456218059445, guid: b744d56605393b748a3c5eab0ff5e6be, type: 3}
   particlePrefab: {fileID: 0}
   animationProfiles: []
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashFrames: 1
+  takeDamageKeys:
+  - TakeDamage
+  dieKeys:
+  - Die
 --- !u!114 &3102846348418101724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,27 +213,6 @@ MonoBehaviour:
   speed: 2
   delayBeforeMove: 0
   isMoving: 0
---- !u!114 &-8611430395403903284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc64faabe79e30d4ea58aac94c8e62d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  soundClips: []
-  soundKeys:
-  - TakeDamage
-  - Attack1
-  - Attack2
-  - Attack3
-  - LongAttack
-  - DestroyedEnemy
 --- !u!82 &-7467600529598486517
 AudioSource:
   m_ObjectHideFlags: 0
@@ -233,6 +224,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -6550935736765022509, guid: c7b3176b2e959984ba3e4ff288f5c790, type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

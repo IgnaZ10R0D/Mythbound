@@ -9,6 +9,7 @@ public class RotatedRingEnemyShot : MonoBehaviour, IAttack
         public GameObject prefab;
         public BulletConfig config;
     }
+
     [Header("Bullet Configuration")]
     [SerializeField] private List<BulletEntry> bulletVariants = new List<BulletEntry>();
     [SerializeField] private int bulletsPerRing = 8;
@@ -78,20 +79,22 @@ public class RotatedRingEnemyShot : MonoBehaviour, IAttack
         }
         else
         {
-            Debug.LogWarning("Bullet instanciada sin script v·lido o sin config.");
+            Debug.LogWarning("Bullet instanciada sin script v√°lido o sin config.");
         }
     }
 
     private void PlayAttackSound()
     {
-        EnemySounds sounds = GetComponent<EnemySounds>();
-        if (sounds != null && attackSoundKeys.Length > 0)
+        if (attackSoundKeys != null && attackSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
         {
-            sounds.PlaySound(attackSoundKeys[currentSoundIndex]);
+            string keyToPlay = attackSoundKeys[currentSoundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+
             currentSoundIndex = (currentSoundIndex + 1) % attackSoundKeys.Length;
         }
     }
 }
+
 
 
 

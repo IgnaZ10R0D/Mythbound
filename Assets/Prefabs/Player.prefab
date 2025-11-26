@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 632377903294600191}
   - component: {fileID: 1481751865058614830}
   - component: {fileID: 5165256375117037551}
-  - component: {fileID: 5854528292938390299}
   - component: {fileID: 4578637427441178254}
   m_Layer: 0
   m_Name: Player
@@ -208,7 +207,7 @@ MonoBehaviour:
   transparencyWhenDisabled: 0.5
   gameOverManager: {fileID: 0}
   healthSoundKeys:
-  - LoseALife
+  - PlayerDeath
   framesToActivateDamage: 5
 --- !u!114 &5165256375117037551
 MonoBehaviour:
@@ -222,29 +221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dc106de0215a9148be9c943db2608d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5854528292938390299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7712064403466066315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58db29c1ae985a47881010d450f58a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  soundClips:
-  - {fileID: 8300000, guid: 309650ff04d367e4ab03a4966316dc59, type: 3}
-  - {fileID: 8300000, guid: 6eefe7fcb378dd743ba9509e77d37f1d, type: 3}
-  - {fileID: 8300000, guid: 8c5fb2032c28259498919218b52ad809, type: 3}
-  - {fileID: 8300000, guid: bc9590c8d01002d49b523af21777ebf1, type: 3}
-  soundKeys:
-  - UsePassiveSpell
-  - UseActiveSpell
-  - BasicAttack
-  - LoseALife
 --- !u!82 &4578637427441178254
 AudioSource:
   m_ObjectHideFlags: 0

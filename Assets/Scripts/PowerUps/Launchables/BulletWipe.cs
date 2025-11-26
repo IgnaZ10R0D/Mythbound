@@ -2,22 +2,18 @@ using UnityEngine;
 
 public class BulletWipe : MonoBehaviour
 {
+    [Header("Bullet Wipe Settings")]
     [SerializeField] private float expansionSpeed = 10f;
     [SerializeField] private float maxScale = 20f;
     [SerializeField] private string enemyBulletTag = "EnemyBullet";
-    [SerializeField] private string soundName = "UseActiveSpell";
 
-    private PlayerSounds playerSounds;
+    [Header("Audio Settings")]
+    [SerializeField] private string[] soundKeys;
+    private int currentSoundIndex = 0;
 
     void Start()
     {
-        
-        playerSounds = FindFirstObjectByType<PlayerSounds>();
-
-        if (playerSounds != null && !string.IsNullOrEmpty(soundName))
-        {
-            playerSounds.PlaySound(soundName);
-        }
+        PlaySound();
     }
 
     void Update()
@@ -38,10 +34,14 @@ public class BulletWipe : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void PlaySound()
+    {
+        if (soundKeys != null && soundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
+        {
+            string keyToPlay = soundKeys[currentSoundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+            currentSoundIndex = (currentSoundIndex + 1) % soundKeys.Length;
+        }
+    }
 }
-
-
-
-
-
-

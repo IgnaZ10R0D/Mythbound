@@ -2,23 +2,26 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour
 {
+    [Header("Shooting Settings")]
     public GameObject bulletPrefab;
     public Transform firePoint;
     public float shootDelay = 0.1f;
     private float shootTimer = 0f;
+
     public float offsetX = 1f;
     public float offsetY = 1f;
     private Vector3 referencePosition;
-    private PlayerSounds playerSounds;
-    private AudioSource audioSource;
 
-    void Start()
+    [Header("Audio Keys")]
+    [SerializeField] private string[] shootSoundKeys;
+    private int currentSoundIndex = 0;
+
+    private void Start()
     {
         referencePosition = transform.localPosition;
-        playerSounds = GetComponent<PlayerSounds>();
     }
 
-    void Update()
+    private void Update()
     {
         HandleMovement();
         HandleShooting();
@@ -35,7 +38,6 @@ public class ShootingController : MonoBehaviour
             transform.localPosition = referencePosition;
         }
     }
-
 
     private void HandleShooting()
     {
@@ -58,11 +60,15 @@ public class ShootingController : MonoBehaviour
     private void Shoot()
     {
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        if (playerSounds != null)
+
+        if (GameplaySoundsManager.Instance != null && shootSoundKeys.Length > 0)
         {
-            playerSounds.PlaySound("BasicAttack");
+            GameplaySoundsManager.Instance.Play(shootSoundKeys[currentSoundIndex]);
+            currentSoundIndex = (currentSoundIndex + 1) % shootSoundKeys.Length;
         }
     }
 }
+
+
 
 

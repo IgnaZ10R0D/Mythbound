@@ -28,19 +28,18 @@ public class BridgeWrathAttack : MonoBehaviour, IAttack
 
     [Header("Audio")]
     [SerializeField] private string[] attackSoundKeys;
+    private int soundIndex;
 
     [Header("Health Phases")]
     [SerializeField] private int[] healthIndexes = { 4 }; 
     public int[] HealthIndexes => healthIndexes;
 
     public bool IsContinuous => true; 
-
     public EnemyAttackHandler enemyAttackScript { get; set; }
 
     private float arcTimer;
     private float pillarTimer;
     private int arcVariantIndex;
-    private int soundIndex;
 
     private void Start()
     {
@@ -126,13 +125,15 @@ public class BridgeWrathAttack : MonoBehaviour, IAttack
 
     private void PlayAttackSound()
     {
-        EnemySounds sounds = GetComponent<EnemySounds>();
-        if (sounds != null && attackSoundKeys.Length > 0)
+        if (attackSoundKeys != null && attackSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
         {
-            sounds.PlaySound(attackSoundKeys[soundIndex]);
+            string keyToPlay = attackSoundKeys[soundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+
             soundIndex = (soundIndex + 1) % attackSoundKeys.Length;
         }
     }
 }
+
 
 

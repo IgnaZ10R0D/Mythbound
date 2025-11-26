@@ -17,6 +17,7 @@ public class RingEnemyShot : MonoBehaviour, IAttack
 
     [Header("Audio")]
     [SerializeField] private string[] attackSoundKeys;
+    private int currentSoundIndex = 0;
 
     [Header("Health Phases")]
     [SerializeField] private int[] healthIndexes = { 0, 2 };
@@ -26,7 +27,6 @@ public class RingEnemyShot : MonoBehaviour, IAttack
     public EnemyAttackHandler enemyAttackScript { get; set; }
 
     private int currentVariantIndex = 0;
-    private int currentSoundIndex = 0;
 
     private void Start()
     {
@@ -76,19 +76,21 @@ public class RingEnemyShot : MonoBehaviour, IAttack
         }
         else
         {
-            Debug.LogWarning("Bullet instanciada sin script v·lido o sin config.");
+            Debug.LogWarning("Bullet instanciada sin script v√°lido o sin config.");
         }
     }
 
     private void PlayAttackSound()
     {
-        EnemySounds enemySounds = GetComponent<EnemySounds>();
-        if (enemySounds != null && attackSoundKeys.Length > 0)
+        if (attackSoundKeys != null && attackSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
         {
-            enemySounds.PlaySound(attackSoundKeys[currentSoundIndex]);
+            string keyToPlay = attackSoundKeys[currentSoundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+
             currentSoundIndex = (currentSoundIndex + 1) % attackSoundKeys.Length;
         }
     }
 }
+
 
 

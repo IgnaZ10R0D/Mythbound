@@ -48,6 +48,8 @@ MonoBehaviour:
   damageAmount: 50
   radius: 5
   barrierEffectPrefab: {fileID: 7086229229627504786, guid: 95e4c482a291501469ebcda0867374cc, type: 3}
+  soundKeys:
+  - SupernaturalBarrierUsed
 --- !u!61 &-6257167220353554679
 BoxCollider2D:
   m_ObjectHideFlags: 0

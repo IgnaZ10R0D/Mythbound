@@ -7,16 +7,18 @@ public class SupernaturalBarrier : PowerUp
     public float radius = 5f;
     public ParticleSystem barrierEffectPrefab; 
 
+    [Header("Audio Settings")]
+    [SerializeField] private string[] soundKeys;
+    private int currentSoundIndex = 0;
+
     private bool isUsed = false;
-    private PlayerSounds playerSounds;
     private PowerUpController powerUpController;
     private Transform playerTransform;
 
     void Start()
     {
         powerUpController = FindFirstObjectByType<PowerUpController>();
-        playerSounds = FindFirstObjectByType<PlayerSounds>(); 
-        playerTransform = FindFirstObjectByType<Player>().transform; 
+        playerTransform = FindFirstObjectByType<Player>()?.transform;
     }
 
     public override void UsePowerUp()
@@ -48,10 +50,7 @@ public class SupernaturalBarrier : PowerUp
             }
         }
 
-        if (playerSounds != null)
-        {
-            playerSounds.PlaySound("UsePassiveSpell");
-        }
+        PlaySound();
 
         isUsed = false;
     }
@@ -79,7 +78,18 @@ public class SupernaturalBarrier : PowerUp
             powerUpController.UsePowerUp<SupernaturalBarrier>();
         }
     }
+
+    private void PlaySound()
+    {
+        if (soundKeys != null && soundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
+        {
+            string keyToPlay = soundKeys[currentSoundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+            currentSoundIndex = (currentSoundIndex + 1) % soundKeys.Length;
+        }
+    }
 }
+
 
 
 

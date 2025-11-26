@@ -17,25 +17,21 @@ public class PlayerHealth : MonoBehaviour
     private Transform[] childObjects;
 
     private int currentSoundIndex = 0;
-    private PlayerSounds playerSounds;
     [SerializeField] private string[] healthSoundKeys;
 
     [SerializeField] private int framesToActivateDamage = 5;
     private int currentFramesInTrigger;
     public int LivesRemaining => _livesRemaining;
-    private AudioSource audioSource;
 
     private bool isHandlingDamage = false; 
 
-    void Start()
+    private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         spRd = GetComponent<SpriteRenderer>();
         colliders = GetComponents<Collider2D>();
         childObjects = GetComponentsInChildren<Transform>(true);
         gameOverManager = FindFirstObjectByType<GameOverManager>();
         currentFramesInTrigger = 0;
-        playerSounds = GetComponent<PlayerSounds>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -72,8 +68,13 @@ public class PlayerHealth : MonoBehaviour
         if (isHandlingDamage) yield break;
         isHandlingDamage = true;
 
-        if (playerSounds != null && healthSoundKeys.Length > currentSoundIndex)
-            playerSounds.PlaySound(healthSoundKeys[currentSoundIndex]);
+        // Reproducir sonido mediante GameplaySoundsManager
+        if (healthSoundKeys != null && healthSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
+        {
+            string keyToPlay = healthSoundKeys[currentSoundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+            currentSoundIndex = (currentSoundIndex + 1) % healthSoundKeys.Length;
+        }
 
         if (_livesRemaining > 0) _livesRemaining--;
 
@@ -149,7 +150,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (spRd == null || colliders == null) return;
 
@@ -168,4 +169,5 @@ public class PlayerHealth : MonoBehaviour
         spRd.color = spriteColor;
     }
 }
+
 

@@ -17,6 +17,7 @@ public class ShotgunEnemyShot : MonoBehaviour, IAttack
 
     [Header("Audio")]
     [SerializeField] private string[] attackSoundKeys;
+    private int currentSoundIndex = 0;
 
     [Header("Health Phases")]
     [SerializeField] private int[] healthIndexes = { 0, 2 };
@@ -26,7 +27,6 @@ public class ShotgunEnemyShot : MonoBehaviour, IAttack
     public EnemyAttackHandler enemyAttackScript { get; set; }
 
     private int currentVariantIndex = 0;
-    private int currentSoundIndex = 0;
 
     private void Start()
     {
@@ -43,6 +43,7 @@ public class ShotgunEnemyShot : MonoBehaviour, IAttack
 
         SpawnShotgunBullets();
         currentVariantIndex = (currentVariantIndex + 1) % bulletVariants.Count;
+
         PlayAttackSound();
     }
 
@@ -52,7 +53,7 @@ public class ShotgunEnemyShot : MonoBehaviour, IAttack
 
         if (bulletsPerShot <= 1)
         {
-            // Disparo único
+            // Disparo Ãºnico
             SpawnSingleBullet(current, transform.rotation.eulerAngles.z);
             return;
         }
@@ -89,13 +90,15 @@ public class ShotgunEnemyShot : MonoBehaviour, IAttack
 
     private void PlayAttackSound()
     {
-        EnemySounds enemySounds = GetComponent<EnemySounds>();
-        if (enemySounds != null && attackSoundKeys.Length > 0)
+        if (attackSoundKeys != null && attackSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
         {
-            enemySounds.PlaySound(attackSoundKeys[currentSoundIndex]);
+            string keyToPlay = attackSoundKeys[currentSoundIndex];
+            GameplaySoundsManager.Instance.Play(keyToPlay);
+
             currentSoundIndex = (currentSoundIndex + 1) % attackSoundKeys.Length;
         }
     }
 }
+
 
 
