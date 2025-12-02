@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUps:
-  - powerUp: {fileID: -2337964254608139913, guid: 5050b3012be78e34d9c72197c44bb5de, type: 3}
+  - powerUp: {fileID: 7509543302349882424, guid: 5050b3012be78e34d9c72197c44bb5de, type: 3}
     thresholdPoints: 100
+    icon: {fileID: 0}
+    displayName: 
   - powerUp: {fileID: 6141781052677418831, guid: d6be790f41047cc49b45fe5385c5cd77, type: 3}
     thresholdPoints: 200
+    icon: {fileID: 0}
+    displayName: 

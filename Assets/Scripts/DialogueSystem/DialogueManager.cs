@@ -66,7 +66,7 @@ public class DialogueManager : MonoBehaviour
         DialogueLine line = dialogueLines[index];
         if (line == null)
         {
-            Debug.LogWarning($"L�nea de di�logo {index} es null. Saltando...");
+            Debug.LogWarning($"Hey Line number {index} is null you fucking jackass. Skipping...");
             currentIndex++;
             ShowDialogue(currentIndex);
             return;
