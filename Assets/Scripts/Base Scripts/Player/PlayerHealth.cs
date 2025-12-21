@@ -68,7 +68,6 @@ public class PlayerHealth : MonoBehaviour
         if (isHandlingDamage) yield break;
         isHandlingDamage = true;
 
-        // Reproducir sonido mediante GameplaySoundsManager
         if (healthSoundKeys != null && healthSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
         {
             string keyToPlay = healthSoundKeys[currentSoundIndex];

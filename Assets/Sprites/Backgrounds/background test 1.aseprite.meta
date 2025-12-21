@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1a9cfb2a0102c27459fdad9a911df0c9
+guid: 042f86e30de9f2e46a0b72c5c18d57a3
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,18 +122,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Prota Dialogo
+  - name: Frame_0
     originalName: 
-    pivot: {x: 0.54761904, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 42
-      height: 97
-    spriteID: e55d3093ff102284aa038c3fcb78fd98
+      width: 100
+      height: 100
+    spriteID: 36459afbb6758d446a01ff23bb104fe3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -142,34 +142,104 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
+  - name: Frame_1
+    originalName: 
+    pivot: {x: 0.48387098, y: -0.074074075}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 220
+      y: 4
+      width: 31
+      height: 81
+    spriteID: 904d71e12e66e0340916e32a843748b9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 220, y: 4}
+  - name: Frame_2
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 112
+      y: 4
+      width: 100
+      height: 100
+    spriteID: 089682d2d5edf1d438f9b75f44932cc0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 112, y: 4}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 3678813507
+      value0: 2319637529
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Prota Dialogo
+    name: background test 1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Prota Dialogo
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 41
+        x: 0
         y: 0
-        width: 42
-        height: 97
-      spriteId: e55d3093ff102284aa038c3fcb78fd98
+        width: 100
+        height: 100
+      spriteId: 36459afbb6758d446a01ff23bb104fe3
+    - name: Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 35
+        y: 6
+        width: 31
+        height: 81
+      spriteId: 904d71e12e66e0340916e32a843748b9
+    - name: Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 100
+        height: 100
+      spriteId: 089682d2d5edf1d438f9b75f44932cc0
     linkedCells: []
     parentIndex: -1
-  platformSettings: []
+  platformSettings:
+  - name: Default
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 128, y: 128}
-  previousTextureSize: {x: 64, y: 128}
+  canvasSize: {x: 100, y: 100}
+  previousTextureSize: {x: 256, y: 128}

@@ -102,7 +102,6 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        Debug.Log("Fin del di�logo, activando boss...");
         Time.timeScale = 1;
         dialogueStarted = false;
 
