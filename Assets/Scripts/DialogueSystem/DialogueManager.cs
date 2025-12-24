@@ -18,41 +18,47 @@ public class DialogueManager : MonoBehaviour
         public bool isTransparent;
     }
 
+    [Header("Dialogue Data")]
     public DialogueLine[] dialogueLines;
     public DialogueImage[] leftImages;
     public DialogueImage[] rightImages;
 
-    [Header("Portraits and Dialogue")]
+    [Header("UI References")]
     public Image leftImageUI;
     public Image rightImageUI;
     public Text dialogueText;
 
     private int currentIndex = 0;
-    private bool dialogueStarted = false;
+    private bool isActive = false;
 
     public void BeginDialogue()
     {
-        Time.timeScale = 0;
-
-        if (dialogueText == null)
-        {
+        if (dialogueText == null || dialogueLines == null || dialogueLines.Length == 0)
             return;
-        }
 
         currentIndex = 0;
-        dialogueStarted = true;
+        isActive = true;
+        gameObject.SetActive(true);
 
         ShowDialogue(currentIndex);
     }
 
     private void Update()
     {
-        if (!dialogueStarted) return;
+        if (!isActive)
+            return;
 
-        if (InputManager.Instance != null && Input.GetKeyDown(InputManager.Instance.GetKey("Shoot")))
+        if (InputManager.Instance != null &&
+            Input.GetKeyDown(InputManager.Instance.GetKey("Shoot")))
         {
             NextDialogue();
         }
+    }
+
+    private void NextDialogue()
+    {
+        currentIndex++;
+        ShowDialogue(currentIndex);
     }
 
     private void ShowDialogue(int index)
@@ -66,13 +72,13 @@ public class DialogueManager : MonoBehaviour
         DialogueLine line = dialogueLines[index];
         if (line == null)
         {
-            Debug.LogWarning($"Hey Line number {index} is null you fucking jackass. Skipping...");
             currentIndex++;
             ShowDialogue(currentIndex);
             return;
         }
 
         dialogueText.text = line.text;
+
         Color c = line.color;
         c.a = line.alphaOverride;
         dialogueText.color = c;
@@ -94,25 +100,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void NextDialogue()
-    {
-        currentIndex++;
-        ShowDialogue(currentIndex);
-    }
-
     private void EndDialogue()
     {
-        Time.timeScale = 1;
-        dialogueStarted = false;
-
-        WaveManager waveManager = FindFirstObjectByType<WaveManager>();
-        if (waveManager != null)
-        {
-            waveManager.StartBossFight();
-        }
-
+        isActive = false;
         gameObject.SetActive(false);
+
+        if (GameStateController.Instance != null)
+        {
+            GameStateController.Instance.EndDialogue();
+        }
     }
 }
+
 
 

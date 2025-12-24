@@ -4,20 +4,25 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     public List<CurrentWave> currentWaves = new List<CurrentWave>();
+
+    [Header("Boss & Victory")]
     public GameObject bossDialogueObject;
     public GameObject victoryPanel;
-    public FadeController fadeController; // 👈 Nueva referencia al FadeController
+
+    [Header("Fade")]
+    public FadeController fadeController;
 
     private MusicManager musicManager;
     private GameManager gameManager;
+
     private bool bossFightStarted = false;
     private bool levelCleared = false;
     private bool dialogueTriggered = false;
 
-    void Start()
+    private void Start()
     {
-        musicManager = FindFirstObjectByType<MusicManager>();
-        gameManager = FindFirstObjectByType<GameManager>();
+        musicManager = FindObjectOfType<MusicManager>();
+        gameManager = FindObjectOfType<GameManager>();
 
         foreach (CurrentWave wave in currentWaves)
         {
@@ -31,45 +36,52 @@ public class WaveManager : MonoBehaviour
         if (victoryPanel != null)
             victoryPanel.SetActive(false);
 
-        // 👇 En vez de activar la primera oleada directamente,
-        // pedimos al FadeController que haga fade out primero
         if (fadeController == null)
             fadeController = FindFirstObjectByType<FadeController>();
 
         if (fadeController != null)
             StartCoroutine(fadeController.FadeOutAndStartLevel());
         else
-            ActivateNextWave(); // fallback si no hay FadeController
+            ActivateNextWave();
     }
 
-    void Update()
+    private void Update()
     {
         RemoveNullWaves();
-
+        
+        if (dialogueTriggered && !bossFightStarted &&
+            GameStateController.Instance != null &&
+            GameStateController.Instance.CurrentState == GameState.Playing)
+        {
+            StartBossFight();
+        }
         if (currentWaves.Count > 0 && !currentWaves[0].gameObject.activeSelf)
         {
             ActivateNextWave();
         }
 
-        if (currentWaves.Count == 1 && !bossFightStarted && !dialogueTriggered)
+        // ---------- BOSS DIALOGUE TRIGGER ----------
+        if (currentWaves.Count == 1 && !dialogueTriggered)
         {
             dialogueTriggered = true;
-
-            if (bossDialogueObject != null)
-            {
-                bossDialogueObject.SetActive(true);
-
-                DialogueManager dm = bossDialogueObject.GetComponent<DialogueManager>();
-                if (dm != null)
-                    dm.BeginDialogue();
-            }
+            TriggerBossDialogue();
         }
 
+        // ---------- VICTORY ----------
         if (currentWaves.Count == 0 && !levelCleared)
         {
             levelCleared = true;
             ShowVictoryPanel();
         }
+    }
+
+    private void TriggerBossDialogue()
+    {
+        if (bossDialogueObject == null || GameStateController.Instance == null)
+            return;
+
+        bossDialogueObject.SetActive(true);
+        GameStateController.Instance.StartDialogue();
     }
 
     public void ActivateNextWave()
@@ -92,21 +104,24 @@ public class WaveManager : MonoBehaviour
             ActivateNextWave();
     }
 
-    void ShowVictoryPanel()
+    public void StartBossFight()
+    {
+        if (bossFightStarted)
+            return;
+
+        bossFightStarted = true;
+
+        if (musicManager != null)
+            musicManager.PlayNextTrack();
+    }
+
+    private void ShowVictoryPanel()
     {
         if (victoryPanel != null)
             victoryPanel.SetActive(true);
     }
-
-    public void StartBossFight()
-    {
-        if (!bossFightStarted)
-        {
-            bossFightStarted = true;
-            musicManager.PlayNextTrack();
-        }
-    }
 }
+
 
 
 

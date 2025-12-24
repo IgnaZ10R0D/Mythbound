@@ -4,12 +4,20 @@ using UnityEngine.EventSystems;
 public class GameOverManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private GameObject firstSelectedButton; 
+    [SerializeField] private GameObject firstSelectedButton;
 
+    private void Start()
+    {
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+    }
+
+    /// <summary>
+    /// called only by GameStateController
+    /// when the state becomes GameOver.
+    /// </summary>
     public void ActivateGameOver()
     {
-        Time.timeScale = 0f;
-
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
 
@@ -25,4 +33,5 @@ public class GameOverManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(firstSelectedButton);
     }
 }
+
 
