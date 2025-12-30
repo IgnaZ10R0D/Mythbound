@@ -11,74 +11,75 @@ public class PatrolMovement : MonoBehaviour, IMovement
 
     [SerializeField] private float[] arrayX;
     [SerializeField] private float[] arrayY;
+
     private int currentTargetIndex = 0;
 
     private float stopTimer = 0f;
     private bool isStopped = false;
 
-    private EnemyAttackHandler enemyScript;
     private Enemy enemy;
     private Vector3 patrolTargetPosition;
 
-    void Start()
+    private void Start()
     {
-        enemy = GetComponent<Enemy>();        
-        enemyScript = GetComponent<EnemyAttackHandler>();       
+        enemy = GetComponent<Enemy>();
         SetNextPatrolTarget();
     }
 
-    // Move actualizado para usar currentSpeed
     public void Move(Transform enemyTransform, float currentSpeed)
     {
-        if (enemy == null || enemyScript == null) return;
+        if (enemy == null)
+            return;
 
         if (System.Array.Exists(waveWhereMove, wave => wave == enemy.HealthIndex))
         {
             if (isStopped)
             {
                 stopTimer += Time.deltaTime * currentSpeed;
+
                 if (stopTimer >= stopDuration)
                 {
                     stopTimer = 0f;
                     isStopped = false;
-                    enemyScript.canAttack = false;
                     SetNextPatrolTarget();
                 }
             }
             else
             {
-                Vector3 patrolMovement = (patrolTargetPosition - enemyTransform.position).normalized * patrolSpeed * currentSpeed * Time.deltaTime;
-                enemyTransform.Translate(patrolMovement);
+                Vector3 direction = (patrolTargetPosition - enemyTransform.position).normalized;
+                Vector3 movement = direction * patrolSpeed * currentSpeed * Time.deltaTime;
+
+                enemyTransform.Translate(movement);
 
                 if (Vector3.Distance(enemyTransform.position, patrolTargetPosition) <= stoppingDistance)
                 {
                     isStopped = true;
-                    enemyScript.canAttack = true;
                 }
             }
-        }
-        else
-        {
-            enemyScript.canAttack = true;
         }
     }
 
     private void SetNextPatrolTarget()
     {
-        if (currentTargetIndex < arrayX.Length || currentTargetIndex < arrayY.Length)
-        {
-            float xPosition = currentTargetIndex < arrayX.Length ? arrayX[currentTargetIndex] : arrayX[arrayX.Length - 1];
-            float yPosition = currentTargetIndex < arrayY.Length ? arrayY[currentTargetIndex] : arrayY[arrayY.Length - 1];
+        if (arrayX.Length == 0 || arrayY.Length == 0)
+            return;
 
-            patrolTargetPosition = new Vector3(xPosition, yPosition, 0f);
-            currentTargetIndex++;
-        }
-        else
-        {
+        float x = currentTargetIndex < arrayX.Length
+            ? arrayX[currentTargetIndex]
+            : arrayX[arrayX.Length - 1];
+
+        float y = currentTargetIndex < arrayY.Length
+            ? arrayY[currentTargetIndex]
+            : arrayY[arrayY.Length - 1];
+
+        patrolTargetPosition = new Vector3(x, y, 0f);
+
+        currentTargetIndex++;
+
+        if (currentTargetIndex >= Mathf.Max(arrayX.Length, arrayY.Length))
             currentTargetIndex = 0;
-            SetNextPatrolTarget();
-        }
     }
 }
+
 
 

@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<IEnemyBullet>() != null || collision.GetComponent<Enemy>() != null)
+        if (collision.GetComponent<Bullet>() != null || collision.GetComponent<Enemy>() != null)
         {
             currentFramesInTrigger = 0;
         }
@@ -44,7 +44,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.GetComponent<IEnemyBullet>() != null || collision.GetComponent<Enemy>() != null)
+        if (collision.GetComponent<Bullet>() != null || collision.GetComponent<Enemy>() != null)
         {
             currentFramesInTrigger++;
 
@@ -57,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<IEnemyBullet>() != null || collision.GetComponent<Enemy>() != null)
+        if (collision.GetComponent<Bullet>() != null || collision.GetComponent<Enemy>() != null)
         {
             currentFramesInTrigger = 0;
         }

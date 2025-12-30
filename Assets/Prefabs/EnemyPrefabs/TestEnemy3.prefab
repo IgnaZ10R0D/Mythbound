@@ -13,9 +13,7 @@ GameObject:
   - component: {fileID: -7059358060919971829}
   - component: {fileID: 428214490733231266}
   - component: {fileID: -4043903449327180827}
-  - component: {fileID: 3138458319373895456}
   - component: {fileID: 6274609108568390681}
-  - component: {fileID: 2883637213089337231}
   - component: {fileID: 3102846348418101724}
   - component: {fileID: 219477412969637607}
   m_Layer: 0
@@ -173,23 +171,12 @@ MonoBehaviour:
   dropItem: {fileID: 0}
   particlePrefab: {fileID: 0}
   animationProfiles: []
---- !u!114 &3138458319373895456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3fc64ac7d0754042b715ebac6a95d80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletVariants: []
-  bulletsPerRing: 8
-  spawnRadius: 2
-  attackSoundKeys: []
-  healthIndexes: 0000000002000000
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashFrames: 1
+  takeDamageKeys:
+  - TakeDamage
+  dieKeys:
+  - Die
 --- !u!114 &6274609108568390681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,23 +194,6 @@ MonoBehaviour:
   chargeDelay: 2
   stopDuration: 3
   stoppingDistance: 0.5
---- !u!114 &2883637213089337231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59cbaeb90e9346e43839c3099a517695, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletVariants: []
-  bulletsPerShot: 3
-  spreadAngle: 45
-  attackSoundKeys: []
-  healthIndexes: 0100000002000000
 --- !u!114 &3102846348418101724
 MonoBehaviour:
   m_ObjectHideFlags: 0

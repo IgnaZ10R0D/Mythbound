@@ -5,7 +5,6 @@ public class BulletWipe : MonoBehaviour
     [Header("Bullet Wipe Settings")]
     [SerializeField] private float expansionSpeed = 10f;
     [SerializeField] private float maxScale = 20f;
-    [SerializeField] private string enemyBulletTag = "EnemyBullet";
 
     [Header("Audio Settings")]
     [SerializeField] private string[] soundKeys;
@@ -20,12 +19,15 @@ public class BulletWipe : MonoBehaviour
     {
         transform.localScale += Vector3.one * expansionSpeed * Time.deltaTime;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, transform.localScale.x * 0.5f);
+        float radius = transform.localScale.x * 0.5f;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
+
         foreach (var hit in hits)
         {
-            if (hit.CompareTag(enemyBulletTag))
+            Bullet bullet = hit.GetComponent<Bullet>();
+            if (bullet != null)
             {
-                Destroy(hit.gameObject);
+                bullet.gameObject.SetActive(false);
             }
         }
 
@@ -37,7 +39,8 @@ public class BulletWipe : MonoBehaviour
 
     private void PlaySound()
     {
-        if (soundKeys != null && soundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
+        if (soundKeys != null && soundKeys.Length > 0 &&
+            GameplaySoundsManager.Instance != null)
         {
             string keyToPlay = soundKeys[currentSoundIndex];
             GameplaySoundsManager.Instance.Play(keyToPlay);

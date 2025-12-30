@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ff853e400473f6488e5a274c2ef8a7e, type: 3}
-  m_Name: SpiralRadialShot
+  m_Name: LinearShotPattern
   m_EditorClassIdentifier: 
-  Repetitions: 50
-  AngleOffsetBetweenReps: 10
+  Repetitions: 6
+  AngleOffsetBetweenReps: 0
   StartWait: 0
-  EndWait: 0
+  EndWait: 1
   PatternSettings:
-  - NumberOfBullets: 8
-    BulletSpeed: 10
-    CooldownAfterShot: 0.1
+  - NumberOfBullets: 1
+    BulletSpeed: 4
+    CooldownAfterShot: 0.5
     PhaseOffset: 0
-    AngleOffset: 0
+    AngleOffset: 180
     RadialMask: 0
-    MaskAngle: 360
+    MaskAngle: 0
+    BulletSprite: {fileID: -987594996878273913, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
+    BulletScale: {x: 3, y: 3, z: 0}
