@@ -25,10 +25,21 @@ public static class ShotAttack
             );
         }
 
+        float halfMask = settings.MaskAngle * 0.5f;
+
         for (int i = 0; i < settings.NumberOfBullets; i++)
         {
             float bulletAngle = angleBetweenBullets * i;
             Vector2 direction = aimDirection.Rotate(bulletAngle).normalized;
+
+            // --- RADIAL MASK ---
+            if (settings.RadialMask && settings.MaskAngle < 360f)
+            {
+                float signedAngle = Vector2.SignedAngle(aimDirection, direction);
+
+                if (Mathf.Abs(signedAngle) > halfMask)
+                    continue;
+            }
 
             Bullet bullet = BulletPool.Instance.RequestBullet();
             if (bullet == null)
@@ -36,8 +47,6 @@ public static class ShotAttack
 
             bullet.transform.position = center;
             bullet.Velocity = direction * settings.BulletSpeed;
-
-            // --- APLICACIÓN VISUAL ---
             bullet.ApplyVisual(settings);
         }
     }
