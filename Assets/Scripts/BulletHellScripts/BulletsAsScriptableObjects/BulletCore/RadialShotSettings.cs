@@ -17,6 +17,8 @@ public class RadialShotSettings
     [Range(0f, 360f)] public float MaskAngle = 360f;
     [Header("Visual Elements")] 
     public Sprite BulletSprite;
-
     public Vector3 BulletScale;
+    [Header("Bullet Behaviours")]
+    public BulletBehaviour BehaviorProfile;
+    public BulletActivationCondition ConditionProfile;
 }

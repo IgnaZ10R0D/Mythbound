@@ -5,13 +5,13 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int _livesRemaining = 2;
     public int continuesRemaining = 3;
+
     [SerializeField] private Vector3 respawnPosition;
     [SerializeField] private float spriteDisableTime = 2f;
     [SerializeField] private float colliderDisableTime = 3f;
-    [SerializeField] private float gameOverDelay = 1f; 
-    [SerializeField] private float transparencyWhenDisabled = 0.5f; 
+    [SerializeField] private float gameOverDelay = 1f;
+    [SerializeField] private float transparencyWhenDisabled = 0.5f;
 
-    [SerializeField] private GameOverManager gameOverManager;
     private SpriteRenderer spRd;
     private Collider2D[] colliders;
     private Transform[] childObjects;
@@ -21,16 +21,16 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private int framesToActivateDamage = 5;
     private int currentFramesInTrigger;
+
     public int LivesRemaining => _livesRemaining;
 
-    private bool isHandlingDamage = false; 
+    private bool isHandlingDamage = false;
 
     private void Start()
     {
         spRd = GetComponent<SpriteRenderer>();
         colliders = GetComponents<Collider2D>();
         childObjects = GetComponentsInChildren<Transform>(true);
-        gameOverManager = FindFirstObjectByType<GameOverManager>();
         currentFramesInTrigger = 0;
     }
 
@@ -65,7 +65,9 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator HandleDamageAndRespawn()
     {
-        if (isHandlingDamage) yield break;
+        if (isHandlingDamage)
+            yield break;
+
         isHandlingDamage = true;
 
         if (healthSoundKeys != null && healthSoundKeys.Length > 0 && GameplaySoundsManager.Instance != null)
@@ -75,13 +77,15 @@ public class PlayerHealth : MonoBehaviour
             currentSoundIndex = (currentSoundIndex + 1) % healthSoundKeys.Length;
         }
 
-        if (_livesRemaining > 0) _livesRemaining--;
+        if (_livesRemaining > 0)
+            _livesRemaining--;
 
         yield return StartCoroutine(TemporaryDisableWithRespawn(respawnPosition));
 
+        // --- Game Over ---
         if (_livesRemaining == 0)
         {
-            yield return new WaitForSeconds(gameOverDelay); 
+            yield return new WaitForSeconds(gameOverDelay);
             CheckGameOver();
             isHandlingDamage = false;
             yield break;
@@ -92,11 +96,15 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator TemporaryDisableWithRespawn(Vector3 targetPosition)
     {
-        if (spRd != null) spRd.enabled = false;
+        if (spRd != null)
+            spRd.enabled = false;
+
         if (colliders != null)
         {
-            foreach (var col in colliders) if (col != null) col.enabled = false;
+            foreach (var col in colliders)
+                if (col != null) col.enabled = false;
         }
+
         SetChildrenActive(false);
 
         transform.position = targetPosition;
@@ -105,7 +113,9 @@ public class PlayerHealth : MonoBehaviour
 
         if (_livesRemaining > 0)
         {
-            if (spRd != null) spRd.enabled = true;
+            if (spRd != null)
+                spRd.enabled = true;
+
             SetChildrenActive(true);
         }
 
@@ -113,19 +123,27 @@ public class PlayerHealth : MonoBehaviour
 
         if (colliders != null)
         {
-            foreach (var col in colliders) if (col != null) col.enabled = true;
+            foreach (var col in colliders)
+                if (col != null) col.enabled = true;
         }
     }
 
     private void CheckGameOver()
     {
-        if (gameOverManager != null)
-            gameOverManager.ActivateGameOver();
+        if (GameStateController.Instance != null)
+        {
+            GameStateController.Instance.TriggerGameOver();
+        }
+        else
+        {
+            Debug.LogError("[PlayerHealth] GameStateController no encontrado al intentar activar GameOver.");
+        }
     }
 
     private void SetChildrenActive(bool isActive)
     {
-        if (childObjects == null) return;
+        if (childObjects == null)
+            return;
 
         foreach (Transform child in childObjects)
         {
@@ -144,14 +162,15 @@ public class PlayerHealth : MonoBehaviour
         if (continuesRemaining > 0)
         {
             continuesRemaining--;
-            _livesRemaining = 2; 
+            _livesRemaining = 2;
             StartCoroutine(TemporaryDisableWithRespawn(respawnPosition));
         }
     }
 
     private void Update()
     {
-        if (spRd == null || colliders == null) return;
+        if (spRd == null || colliders == null)
+            return;
 
         bool anyColliderActive = false;
         foreach (var col in colliders)
@@ -168,5 +187,6 @@ public class PlayerHealth : MonoBehaviour
         spRd.color = spriteColor;
     }
 }
+
 
 

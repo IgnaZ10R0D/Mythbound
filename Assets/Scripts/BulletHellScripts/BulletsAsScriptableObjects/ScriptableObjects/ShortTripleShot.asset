@@ -26,3 +26,5 @@ MonoBehaviour:
     MaskAngle: 47
     BulletSprite: {fileID: 5327131734856063916, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
     BulletScale: {x: 3, y: 3, z: 0}
+    BehaviorProfile: {fileID: 0}
+    ConditionProfile: {fileID: 0}

@@ -1,25 +1,70 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 public class ContinueButton : MonoBehaviour
 {
-    public PlayerHealth player; 
-    [SerializeField] private GameObject gameOverPanel; 
+    private GameStateController _gameStateController;
 
-    public void ContinueGame()
+    public PlayerHealth player;
+    [SerializeField] private GameObject gameOverPanel;
+
+    private void Awake()
     {
-        if (player.continuesRemaining > 0)
-        {
-            player.UseContinue();
-            Time.timeScale = 1; 
-            gameOverPanel.SetActive(false); 
-        }
+        ResolveGameStateController();
     }
+
     private void OnEnable()
     {
+        ResolveGameStateController();
+
         if (EventSystem.current != null)
         {
+            EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(gameObject);
         }
     }
+
+    private void ResolveGameStateController()
+    {
+        if (_gameStateController != null)
+            return;
+
+        if (GameStateController.Instance != null)
+        {
+            _gameStateController = GameStateController.Instance;
+            return;
+        }
+
+        _gameStateController = FindObjectOfType<GameStateController>();
+    }
+
+    public void ContinueGame()
+    {
+        if (player == null)
+            return;
+
+        if (player.continuesRemaining <= 0)
+            return;
+
+        // 1. Usar continue
+        player.UseContinue();
+
+        // 2. Volver al estado Playing desde GameOver
+        if (_gameStateController != null)
+        {
+            _gameStateController.ResumeFromGameOver();
+        }
+        else
+        {
+            // Fallback de emergencia (no debería pasar)
+            Time.timeScale = 1f;
+        }
+
+        // 3. Cerrar panel
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+    }
 }
+
+
 
