@@ -40,13 +40,17 @@ public class SupernaturalBarrier : PowerUp
         Collider2D[] colliders = Physics2D.OverlapCircleAll(playerTransform.position, radius);
         foreach (var collider in colliders)
         {
-            if (collider.GetComponent<IEnemyBullet>() != null)
+            Bullet bullet = collider.GetComponent<Bullet>();
+            if (bullet != null)
             {
-                Destroy(collider.gameObject);
+                bullet.gameObject.SetActive(false);
+                continue;
             }
-            else if (collider.GetComponent<Enemy>() != null)
+
+            Enemy enemy = collider.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                collider.GetComponent<Enemy>().TakeDamage(damageAmount);
+                enemy.TakeDamage(damageAmount);
             }
         }
 
@@ -73,7 +77,7 @@ public class SupernaturalBarrier : PowerUp
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<IEnemyBullet>() != null && powerUpController != null)
+        if (collision.GetComponent<Bullet>() != null && powerUpController != null)
         {
             powerUpController.UsePowerUp<SupernaturalBarrier>();
         }
@@ -89,7 +93,4 @@ public class SupernaturalBarrier : PowerUp
         }
     }
 }
-
-
-
 

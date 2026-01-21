@@ -13,8 +13,8 @@ public class GameOverManager : MonoBehaviour
     }
 
     /// <summary>
-    /// called only by GameStateController
-    /// when the state becomes GameOver.
+    /// Called only by GameStateController
+    /// when state becomes GameOver.
     /// </summary>
     public void ActivateGameOver()
     {
@@ -33,5 +33,4 @@ public class GameOverManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(firstSelectedButton);
     }
 }
-
 

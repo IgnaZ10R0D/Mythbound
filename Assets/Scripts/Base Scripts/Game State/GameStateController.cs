@@ -66,6 +66,7 @@ public class GameStateController : MonoBehaviour
         if (_currentState != GameState.Paused)
             return;
         SetState(GameState.Playing);
+        Time.timeScale = 1f;
     }
 
     public bool StartDialogue()
@@ -89,5 +90,14 @@ public class GameStateController : MonoBehaviour
             return;
         SetState(GameState.GameOver);
         _gameOverManager.ActivateGameOver();
+        Time.timeScale = 0;
     }
+    public void ResumeFromGameOver()
+    {
+        if (_currentState != GameState.GameOver)
+            return;
+
+        SetState(GameState.Playing);
+    }
+
 }

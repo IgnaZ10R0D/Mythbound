@@ -1,103 +1,62 @@
-using System;
 using UnityEngine;
 
 public sealed class EnemyAttackHandler : MonoBehaviour
 {
-    [SerializeField] private float secondsBetweenShots = 0.5f;
-    public bool canAttack = false;
+    [Header("Attack Entries")]
+    [SerializeField] private AttackEntry[] attackEntries;
 
-    private float attackTimer = 0f;
     private Renderer enemyRenderer;
-    private bool isAttacking = false;
-    private EnemyAnimationController animationController;
-    private IAttack[] cachedAttacks;
-    private float timeFactor = 1f; 
+    private Enemy enemy;
 
-    void Start()
+    private void Awake()
     {
         enemyRenderer = GetComponent<Renderer>();
-        animationController = GetComponent<EnemyAnimationController>();
-        cachedAttacks = GetComponents<IAttack>();
-
-        if (TimeManager.Instance != null)
-        {
-            timeFactor = TimeManager.Instance.TimeSlow;
-            TimeManager.Instance.OnTimeWarpChanged += UpdateTimeFactor;
-        }
+        enemy = GetComponent<Enemy>();
     }
 
-    private void OnDestroy()
+    private void Start()
     {
-        if (TimeManager.Instance != null)
-        {
-            TimeManager.Instance.OnTimeWarpChanged -= UpdateTimeFactor;
-        }
+        UpdateAttackObjects();
     }
 
-    private void UpdateTimeFactor(float factor)
+    private void Update()
     {
-        timeFactor = factor;
+        if (Time.timeScale == 0 || !IsInCameraBounds())
+            return;
+
+        UpdateAttackObjects();
     }
 
-    void Update()
+    private void UpdateAttackObjects()
     {
-        if (!canAttack || Time.timeScale == 0 || !IsInCameraBounds()) return;
+        if (attackEntries == null || enemy == null)
+            return;
 
-        int currentHealthIndex = GetComponent<Enemy>().HealthIndex;
+        int currentIndex = enemy.HealthIndex;
 
-        foreach (IAttack attack in cachedAttacks)
+        foreach (var entry in attackEntries)
         {
-            if (!Array.Exists(attack.HealthIndexes, index => index == currentHealthIndex))
+            if (entry.AttackObject == null)
                 continue;
 
-            if (attack.IsContinuous)
-            {
-                attack.Attack();
-            }
+            bool shouldBeActive = entry.HealthIndex == currentIndex;
+
+            if (entry.AttackObject.activeSelf != shouldBeActive)
+                entry.AttackObject.SetActive(shouldBeActive);
         }
-
-        if (!isAttacking)
-        {
-            attackTimer += Time.deltaTime * timeFactor; 
-
-            if (attackTimer >= secondsBetweenShots)
-            {
-                StartAttack();
-                attackTimer = 0f;
-            }
-        }
-    }
-
-    private void StartAttack()
-    {
-        isAttacking = true;
-        animationController?.SetAttacking(true);
-
-        int currentHealthIndex = GetComponent<Enemy>().HealthIndex;
-
-        foreach (IAttack attack in cachedAttacks)
-        {
-            if (!attack.IsContinuous && Array.Exists(attack.HealthIndexes, index => index == currentHealthIndex))
-            {
-                attack.Attack();
-            }
-        }
-
-        float stopDelay = 0.5f / Mathf.Max(timeFactor, 0.01f); 
-        Invoke(nameof(StopAttack), stopDelay);
-    }
-
-    private void StopAttack()
-    {
-        isAttacking = false;
-        animationController?.SetAttacking(false);
     }
 
     private bool IsInCameraBounds()
     {
         return enemyRenderer != null && enemyRenderer.isVisible;
     }
-}
 
+    [System.Serializable]
+    public class AttackEntry
+    {
+        public GameObject AttackObject;
+        public int HealthIndex;
+    }
+}
 
 

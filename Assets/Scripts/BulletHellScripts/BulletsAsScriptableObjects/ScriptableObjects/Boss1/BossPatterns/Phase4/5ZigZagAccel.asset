@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff853e400473f6488e5a274c2ef8a7e, type: 3}
+  m_Name: 5ZigZagAccel
+  m_EditorClassIdentifier: 
+  Repetitions: 5
+  AngleOffsetBetweenReps: 15
+  StartWait: 1
+  EndWait: 1
+  PatternSettings:
+  - NumberOfBullets: 15
+    BulletSpeed: 2
+    CooldownAfterShot: 0
+    PhaseOffset: 0
+    AngleOffset: 180
+    RadialMask: 0
+    MaskAngle: 0
+    BulletSprite: {fileID: 1290425406043337795, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
+    BulletScale: {x: 2, y: 2, z: 0}
+    BehaviorProfile: {fileID: 11400000, guid: ef72dd1199966ed4f869676e09bb890e, type: 2}
+    ConditionProfile: {fileID: 0}
+  - NumberOfBullets: 15
+    BulletSpeed: 2.5
+    CooldownAfterShot: 0
+    PhaseOffset: 0
+    AngleOffset: 180
+    RadialMask: 0
+    MaskAngle: 0
+    BulletSprite: {fileID: 1290425406043337795, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
+    BulletScale: {x: 2, y: 2, z: 0}
+    BehaviorProfile: {fileID: 11400000, guid: 58edc5ea6cf64f241a77fc3adc5b2f14, type: 2}
+    ConditionProfile: {fileID: 0}
+  - NumberOfBullets: 15
+    BulletSpeed: 3
+    CooldownAfterShot: 0
+    PhaseOffset: 0
+    AngleOffset: 180
+    RadialMask: 0
+    MaskAngle: 0
+    BulletSprite: {fileID: 1290425406043337795, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
+    BulletScale: {x: 2, y: 2, z: 0}
+    BehaviorProfile: {fileID: 11400000, guid: ef72dd1199966ed4f869676e09bb890e, type: 2}
+    ConditionProfile: {fileID: 0}
+  - NumberOfBullets: 15
+    BulletSpeed: 3.5
+    CooldownAfterShot: 0
+    PhaseOffset: 0
+    AngleOffset: 180
+    RadialMask: 0
+    MaskAngle: 0
+    BulletSprite: {fileID: 1290425406043337795, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
+    BulletScale: {x: 2, y: 2, z: 0}
+    BehaviorProfile: {fileID: 11400000, guid: 58edc5ea6cf64f241a77fc3adc5b2f14, type: 2}
+    ConditionProfile: {fileID: 0}
+  - NumberOfBullets: 15
+    BulletSpeed: 4
+    CooldownAfterShot: 1.5
+    PhaseOffset: 0
+    AngleOffset: 180
+    RadialMask: 0
+    MaskAngle: 0
+    BulletSprite: {fileID: 1290425406043337795, guid: 79b75b1bebc89454ba4967aa237759e3, type: 3}
+    BulletScale: {x: 2, y: 2, z: 0}
+    BehaviorProfile: {fileID: 11400000, guid: ef72dd1199966ed4f869676e09bb890e, type: 2}
+    ConditionProfile: {fileID: 0}
