@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
 
     private float currentTimeFactor = 1f;
     private SpriteRenderer spriteRenderer;
+    
+    public Transform Target { get; private set; }
 
     // =========================================================
     // Behaviour system (profiles + runtime instances)
@@ -137,5 +139,10 @@ public class Bullet : MonoBehaviour
         _lifeTime = 0f;
         gameObject.SetActive(false);
     }
+    public void InjectTarget(Transform target)
+    {
+        Target = target;
+    }
+
 }
 
