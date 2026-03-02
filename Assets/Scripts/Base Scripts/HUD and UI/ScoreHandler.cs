@@ -36,7 +36,7 @@ public class ScoreHandler : MonoBehaviour
 
     private void UpdateScoreText()
     {
-        scoreText.text = $"Score: {gameManager.totalScore}";
+        scoreText.text = $"Score: {gameManager.totalScore:D8}";
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
 
     public float CurrentHealth => _health[_currentHealthIndex];
     public float MaxHealth => _health.Length > 0 ? _health[_currentHealthIndex] : 0f;
+    
 
     void Start()
     {
@@ -146,7 +147,4 @@ public class Enemy : MonoBehaviour
         }
     }
 }
-
-
-
 
