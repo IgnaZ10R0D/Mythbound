@@ -11,7 +11,6 @@ public static class ShotAttack
         bullet.transform.position = origin;
         bullet.Velocity = velocity;
 
-        // Sin behaviours ni condiciones → bala completamente normal
         bullet.InjectBehaviour(null, null);
     }
 
