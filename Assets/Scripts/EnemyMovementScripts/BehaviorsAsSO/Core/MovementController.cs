@@ -10,12 +10,10 @@ public class MovementController : MonoBehaviour
     {
         if (currentMovement != null)
         {
-            Debug.Log("[MovementController] Forzando stop de movimiento anterior");
             currentMovement.Stop();
         }
 
         currentMovement = behaviour.CreateInstance(transform, parameters);
-        Debug.Log($"[MovementController] Iniciando nuevo movimiento: {behaviour.GetType().Name}");
         currentMovement.Start();
     }
 
@@ -29,14 +27,10 @@ public class MovementController : MonoBehaviour
     public void Update()
     {
         if (currentMovement == null) return;
-
-        Debug.Log($"[MovementController] Tick - IsFinished: {currentMovement.IsFinished} | Type: {currentMovement.GetType().Name}");
-
         currentMovement.Tick(Time.deltaTime);
 
         if (currentMovement.IsFinished)
         {
-            Debug.Log($"[MovementController] MOVIMIENTO TERMINADO → liberando");
             currentMovement = null;
         }
     }

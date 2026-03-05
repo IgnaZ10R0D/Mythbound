@@ -4,18 +4,44 @@ using UnityEngine;
 public class RadialShotWeapon : MonoBehaviour
 {
     [SerializeField] private RadialShotPattern _shotPattern;
+
     private bool _onShotPattern = false;
+    private Coroutine currentPattern;
+
+    private void OnEnable()
+    {
+        ResetWeaponState();
+    }
+
+    private void OnDisable()
+    {
+        StopCurrentPattern();
+    }
+
+    private void ResetWeaponState()
+    {
+        StopCurrentPattern();
+        _onShotPattern = false;
+    }
+
+    private void StopCurrentPattern()
+    {
+        if (currentPattern != null)
+        {
+            StopCoroutine(currentPattern);
+            currentPattern = null;
+        }
+    }
 
     private void Update()
     {
         if (_onShotPattern)
             return;
 
-        // Do not initiate pattern until it is inside CameraBounds.
         if (!IsInsideCameraBounds())
             return;
 
-        StartCoroutine(ExecuteRadialShotPattern(_shotPattern));
+        currentPattern = StartCoroutine(ExecuteRadialShotPattern(_shotPattern));
     }
 
     private IEnumerator ExecuteRadialShotPattern(RadialShotPattern pattern)
@@ -29,7 +55,9 @@ public class RadialShotWeapon : MonoBehaviour
 
         while (lap < pattern.Repetitions)
         {
-            // If it isn't inside camera bounds, it doesn't shoot 
+            if (!isActiveAndEnabled)
+                yield break;
+
             if (!IsInsideCameraBounds())
                 break;
 
@@ -38,7 +66,9 @@ public class RadialShotWeapon : MonoBehaviour
 
             for (int i = 0; i < pattern.PatternSettings.Length; i++)
             {
-                // Additional check just in case.
+                if (!isActiveAndEnabled)
+                    yield break;
+
                 if (!IsInsideCameraBounds())
                     break;
 
@@ -59,7 +89,9 @@ public class RadialShotWeapon : MonoBehaviour
         }
 
         yield return new WaitForSeconds(pattern.EndWait);
+
         _onShotPattern = false;
+        currentPattern = null;
     }
 
     private bool IsInsideCameraBounds()
@@ -72,14 +104,8 @@ public class RadialShotWeapon : MonoBehaviour
         if (viewportPos.z <= 0f)
             return false;
 
-        if (viewportPos.x < 0f || viewportPos.x > 1f)
-            return false;
-
-        if (viewportPos.y < 0f || viewportPos.y > 1f)
-            return false;
-
-        return true;
+        return viewportPos.x >= 0f && viewportPos.x <= 1f &&
+               viewportPos.y >= 0f && viewportPos.y <= 1f;
     }
 }
-
 

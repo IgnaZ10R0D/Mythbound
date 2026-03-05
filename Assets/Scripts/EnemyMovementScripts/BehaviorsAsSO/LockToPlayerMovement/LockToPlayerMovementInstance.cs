@@ -33,10 +33,21 @@ public class LockToPlayerMovementInstance : MovementInstance
 
     private void LockTarget()
     {
-        if (_cachedPlayer != null)
-            _targetPosition = (Vector2)_cachedPlayer.transform.position + _parameters.offset;
-        else
-            _targetPosition = owner.position;
+        switch (_parameters.targetType)
+        {
+            case MovementTargetType.Player:
+                if (_cachedPlayer != null)
+                    _targetPosition =
+                        (Vector2)_cachedPlayer.transform.position
+                        + _parameters.targetOffset;
+                else
+                    _targetPosition = owner.position;
+                break;
+
+            default:
+                _targetPosition = _parameters.targetPosition;
+                break;
+        }
     }
 
     public override void Tick(float deltaTime)

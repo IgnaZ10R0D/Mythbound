@@ -11,11 +11,7 @@ GameObject:
   - component: {fileID: 5331044301964295380}
   - component: {fileID: 8090032510408508894}
   - component: {fileID: -7059358060919971829}
-  - component: {fileID: 428214490733231266}
   - component: {fileID: -4043903449327180827}
-  - component: {fileID: 6274609108568390681}
-  - component: {fileID: 3102846348418101724}
-  - component: {fileID: 219477412969637607}
   m_Layer: 0
   m_Name: TestEnemy3
   m_TagString: Enemy
@@ -125,33 +121,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &428214490733231266
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &-4043903449327180827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,49 +146,3 @@ MonoBehaviour:
   - TakeDamage
   dieKeys:
   - Die
---- !u!114 &6274609108568390681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd295197dbc027f4cae2a0199484b798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveWhereMove: 000000000100000002000000
-  chargeSpeed: 10
-  chargeDelay: 2
-  stopDuration: 3
-  stoppingDistance: 0.5
---- !u!114 &3102846348418101724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 165c81d31c7bf69469fd0612a8528f88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsBetweenShots: 0.5
-  canAttack: 0
---- !u!114 &219477412969637607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109672332841504189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb99186c1e2722648852436ac2c762a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  delayBeforeMove: 0
-  isMoving: 0

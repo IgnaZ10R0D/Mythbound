@@ -2,40 +2,31 @@ using UnityEngine;
 
 public class EnemyAnimationController : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private EnemyAnimationProfile animationProfile;
+    Animator animator;
 
-    void Start()
+    static readonly int Moving = Animator.StringToHash("Moving");
+    static readonly int Attack = Animator.StringToHash("Attack");
+    static readonly int AttackType = Animator.StringToHash("AttackType");
+
+    void Awake()
     {
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+        animator = GetComponent<Animator>();
     }
 
-    public void SetAnimationProfile(EnemyAnimationProfile newProfile)
+    public void SetMoving(bool value)
     {
-        animationProfile = newProfile;
+        animator.SetBool(Moving, value);
     }
 
-    public void SetMoving(bool isMoving)
+    public void StartAttack(int attackType)
     {
-        if (animationProfile != null && animationProfile.usesOnlyIdleAnimation) return;
-
-        if (animator != null)
-        {
-            animator.SetBool("isMoving", isMoving);
-        }
+        animator.SetInteger(AttackType, attackType);
+        animator.SetBool(Attack, true);
     }
 
-    public void SetAttacking(bool isAttacking)
+    public void StopAttack()
     {
-        if (animationProfile != null && animationProfile.usesOnlyIdleAnimation) return;
-
-        if (animator != null)
-        {
-            animator.SetBool("isAttacking", isAttacking);
-        }
+        animator.SetBool(Attack, false);
     }
 }
 

@@ -14,6 +14,7 @@ public class EnemyOrchestrator : MonoBehaviour
     [SerializeField] private WaveWeapon[] waveWeapons;
 
     private int currentWave = -1;
+    private Coroutine movementRoutine;
 
     private void Start()
     {
@@ -33,59 +34,52 @@ public class EnemyOrchestrator : MonoBehaviour
     {
         if (waveIndex < 0 || waveIndex >= waves.Length)
             return;
-
+        if (movementRoutine != null)
+            StopCoroutine(movementRoutine);
         var wave = waves[waveIndex];
-
         DisableAllWeapons();
-
         if (wave.shootInParallel)
             ActivateCurrentWaveWeapons();
 
         if (wave.movements != null && wave.movements.Length > 0)
-            StartCoroutine(PlayMovementsSequentially(wave));
+            movementRoutine = StartCoroutine(PlayMovementsLoop(wave));
         else if (!wave.shootInParallel)
-            ActivateCurrentWaveWeapons(); 
+            ActivateCurrentWaveWeapons();
     }
 
-    private IEnumerator PlayMovementsSequentially(EnemyWave wave)
+    private IEnumerator PlayMovementsLoop(EnemyWave wave)
     {
-        for (int i = 0; i < wave.movements.Length; i++)
+        int i = 0;
+
+        while (currentWave >= 0 && currentWave < waves.Length && waves[currentWave] == wave)
         {
-            if (wave.movements[i] == null)
+            if (wave.movements[i] != null)
             {
-                continue;
-            }
+                var parameters = wave.movementParams[i] ?? new MovementParams();
 
-            var parameters = wave.movementParams[i] ?? new MovementParams();
+                if (!wave.shootInParallel)
+                    ActivateCurrentWaveWeapons();
 
-            if (!wave.shootInParallel)
-            {
-                ActivateCurrentWaveWeapons();
-            }
-
-            if (parameters.waitTime > 0f)
-            {
-                float elapsed = 0f;
-                while (elapsed < parameters.waitTime)
+                if (parameters.waitTime > 0f)
                 {
-                    elapsed += Time.deltaTime;
-                    yield return null;
+                    float elapsed = 0f;
+                    while (elapsed < parameters.waitTime)
+                    {
+                        elapsed += Time.deltaTime;
+                        yield return null;
+                    }
                 }
+
+                if (!wave.shootInParallel)
+                    DisableCurrentWaveWeapons();
+
+                movementController.PlayMovement(wave.movements[i], parameters);
+
+                yield return new WaitUntil(() => !movementController.IsBusy);
             }
-
-            if (!wave.shootInParallel)
-            {
-                DisableCurrentWaveWeapons();
-            }
-
-            movementController.PlayMovement(wave.movements[i], parameters);
-
-            yield return new WaitUntil(() => !movementController.IsBusy);
-        }
-
-        if (!wave.shootInParallel)
-        {
-            ActivateCurrentWaveWeapons();
+            i++;
+            if (i >= wave.movements.Length)
+                i = 0;
         }
     }
 
@@ -110,6 +104,7 @@ public class EnemyOrchestrator : MonoBehaviour
             if (ww.weapon != null)
                 ww.weapon.enabled = false;
     }
+
     private void DisableCurrentWaveWeapons()
     {
         if (waveWeapons == null) return;
@@ -117,9 +112,7 @@ public class EnemyOrchestrator : MonoBehaviour
         foreach (var ww in waveWeapons)
         {
             if (ww.weapon != null && ww.waveIndex == currentWave)
-            {
                 ww.weapon.enabled = false;
-            }
         }
     }
 }
