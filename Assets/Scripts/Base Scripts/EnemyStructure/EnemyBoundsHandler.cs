@@ -3,8 +3,12 @@ using UnityEngine;
 public class EnemyBoundsHandler : MonoBehaviour
 {
     private Collider2D enemyCollider;
-    private MonoBehaviour[] attackScripts; 
+    private MonoBehaviour[] attackScripts;
+
     private bool isOutOfBounds = false;
+
+    [Header("Destroy Settings")]
+    [SerializeField] private float destroyMargin = 5f;
 
     private void Start()
     {
@@ -22,10 +26,22 @@ public class EnemyBoundsHandler : MonoBehaviour
         Camera camera = Camera.main;
         if (camera == null) return;
 
-        Vector3 screenBounds = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, camera.transform.position.z));
+        Vector3 screenBounds = camera.ScreenToWorldPoint(
+            new Vector3(Screen.width, Screen.height, camera.transform.position.z)
+        );
 
-        if (transform.position.x < -screenBounds.x || transform.position.x > screenBounds.x ||
-            transform.position.y < -screenBounds.y || transform.position.y > screenBounds.y)
+        float minX = -screenBounds.x;
+        float maxX = screenBounds.x;
+        float minY = -screenBounds.y;
+        float maxY = screenBounds.y;
+
+        Vector3 pos = transform.position;
+
+        bool outsideCamera =
+            pos.x < minX || pos.x > maxX ||
+            pos.y < minY || pos.y > maxY;
+
+        if (outsideCamera)
         {
             if (!isOutOfBounds)
             {
@@ -41,38 +57,31 @@ public class EnemyBoundsHandler : MonoBehaviour
                 isOutOfBounds = false;
             }
         }
+
+        CheckDestroyBounds(pos, minX, maxX, minY, maxY);
+    }
+
+    private void CheckDestroyBounds(Vector3 pos, float minX, float maxX, float minY, float maxY)
+    {
+        if (pos.x < minX - destroyMargin ||
+            pos.x > maxX + destroyMargin ||
+            pos.y < minY - destroyMargin ||
+            pos.y > maxY + destroyMargin)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void HandleOutOfBounds()
     {
         if (enemyCollider != null)
-        {
             enemyCollider.enabled = false;
-        }
-
-        foreach (MonoBehaviour script in attackScripts)
-        {
-            if (script is IAttack)
-            {
-                script.enabled = false;
-            }
-        }
     }
 
     private void HandleInBounds()
     {
         if (enemyCollider != null)
-        {
             enemyCollider.enabled = true;
-        }
-
-        foreach (MonoBehaviour script in attackScripts)
-        {
-            if (script is IAttack)
-            {
-                script.enabled = true;
-            }
-        }
     }
 }
 

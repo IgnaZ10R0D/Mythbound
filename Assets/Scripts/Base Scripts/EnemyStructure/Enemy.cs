@@ -11,9 +11,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject dropItem;
     [SerializeField] private ParticleSystem particlePrefab;
 
-    [Header("Animation Profiles")]
-    [SerializeField] private EnemyAnimationProfile[] animationProfiles;
-    private EnemyAnimationController animationController;
+    [Header("Animator")]
+    private Animator animator;
 
     [Header("Damage Flash")]
     [SerializeField] private Color flashColor = Color.white;
@@ -30,18 +29,16 @@ public class Enemy : MonoBehaviour
 
     public float CurrentHealth => _health[_currentHealthIndex];
     public float MaxHealth => _health.Length > 0 ? _health[_currentHealthIndex] : 0f;
-    
 
     void Start()
     {
-        animationController = GetComponent<EnemyAnimationController>();
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
 
-        if (animationController != null && animationProfiles.Length > 0)
-            animationController.SetAnimationProfile(animationProfiles[0]);
+        UpdateAnimatorPhase();
     }
 
     void Update()
@@ -49,17 +46,12 @@ public class Enemy : MonoBehaviour
         if (HealthIndex != _currentHealthIndex)
         {
             HealthIndex = _currentHealthIndex;
-            if (animationController != null && animationProfiles.Length > HealthIndex)
-                animationController.SetAnimationProfile(animationProfiles[HealthIndex]);
+            UpdateAnimatorPhase();
         }
 
-        CheckBoundaries();
-
-        if (_health[_currentHealthIndex] <= 0)
+        if (_currentHealthIndex < _health.Length && _health[_currentHealthIndex] <= 0)
         {
-            _currentHealthIndex++;
-            if (_currentHealthIndex >= _health.Length)
-                Die();
+            AdvancePhase();
         }
     }
 
@@ -76,9 +68,29 @@ public class Enemy : MonoBehaviour
 
         if (_health[_currentHealthIndex] <= 0)
         {
-            _currentHealthIndex++;
-            if (_currentHealthIndex >= _health.Length)
-                Die();
+            AdvancePhase();
+        }
+    }
+
+    private void AdvancePhase()
+    {
+        _currentHealthIndex++;
+
+        if (_currentHealthIndex >= _health.Length)
+        {
+            Die();
+        }
+        else
+        {
+            UpdateAnimatorPhase();
+        }
+    }
+
+    private void UpdateAnimatorPhase()
+    {
+        if (animator != null)
+        {
+            animator.SetInteger("Phase", _currentHealthIndex);
         }
     }
 
@@ -125,15 +137,6 @@ public class Enemy : MonoBehaviour
             }
 
             Destroy(collision.gameObject);
-        }
-    }
-
-    private void CheckBoundaries()
-    {
-        if (transform.position.x < EnemyMovementHandler.minX || transform.position.x > EnemyMovementHandler.maxX ||
-            transform.position.y < EnemyMovementHandler.minY || transform.position.y > EnemyMovementHandler.maxY)
-        {
-            Destroy(gameObject);
         }
     }
 
