@@ -1,4 +1,0 @@
-repository "Mythbound/Mythbound@4673192703255@cloud"
-  path "/"
-    br "/main"
-    co "/main"

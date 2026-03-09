@@ -1,10 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
     private MovementInstance currentMovement;
+
+    private float timeFactor = 1f;
+
+    private void OnEnable()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeWarpChanged += OnTimeWarpChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeWarpChanged -= OnTimeWarpChanged;
+    }
+
+    private void OnTimeWarpChanged(float factor)
+    {
+        timeFactor = factor;
+    }
 
     public void PlayMovement(MovementBehaviour behaviour, MovementParams parameters)
     {
@@ -21,18 +38,21 @@ public class MovementController : MonoBehaviour
     {
         if (currentMovement != null)
             currentMovement.Stop();
+
         currentMovement = null;
     }
 
     public void Update()
     {
         if (currentMovement == null) return;
-        currentMovement.Tick(Time.deltaTime);
+
+        currentMovement.Tick(Time.deltaTime * timeFactor);
 
         if (currentMovement.IsFinished)
         {
             currentMovement = null;
         }
     }
+
     public bool IsBusy => currentMovement != null;
 }

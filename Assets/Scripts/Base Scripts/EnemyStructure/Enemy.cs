@@ -1,22 +1,21 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float[] _health = { 100f };
     public int scoreToAdd = 100;
+
     private int _currentHealthIndex = 0;
     public int HealthIndex;
 
     [SerializeField] private GameObject dropItem;
     [SerializeField] private ParticleSystem particlePrefab;
 
-    [Header("Animator")]
-    private Animator animator;
-
     [Header("Damage Flash")]
     [SerializeField] private Color flashColor = Color.white;
-    [SerializeField] private int flashFrames = 1; 
+    [SerializeField] private int flashFrames = 1;
+
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private bool isFlashing = false;
@@ -24,6 +23,7 @@ public class Enemy : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private string[] takeDamageKeys = { "TakeDamage" };
     [SerializeField] private string[] dieKeys = { "Die" };
+
     private int currentTakeDamageIndex = 0;
     private int currentDieIndex = 0;
 
@@ -32,27 +32,21 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
 
-        UpdateAnimatorPhase();
+        HealthIndex = _currentHealthIndex;
     }
 
     void Update()
     {
         if (HealthIndex != _currentHealthIndex)
-        {
             HealthIndex = _currentHealthIndex;
-            UpdateAnimatorPhase();
-        }
 
         if (_currentHealthIndex < _health.Length && _health[_currentHealthIndex] <= 0)
-        {
             AdvancePhase();
-        }
     }
 
     public void TakeDamage(float damage)
@@ -67,9 +61,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DamageFlash());
 
         if (_health[_currentHealthIndex] <= 0)
-        {
             AdvancePhase();
-        }
     }
 
     private void AdvancePhase()
@@ -77,24 +69,10 @@ public class Enemy : MonoBehaviour
         _currentHealthIndex++;
 
         if (_currentHealthIndex >= _health.Length)
-        {
             Die();
-        }
-        else
-        {
-            UpdateAnimatorPhase();
-        }
     }
 
-    private void UpdateAnimatorPhase()
-    {
-        if (animator != null)
-        {
-            animator.SetInteger("Phase", _currentHealthIndex);
-        }
-    }
-
-    private System.Collections.IEnumerator DamageFlash()
+    private IEnumerator DamageFlash()
     {
         if (spriteRenderer == null) yield break;
 
@@ -130,6 +108,7 @@ public class Enemy : MonoBehaviour
         if (collision.CompareTag("PlayerBullet"))
         {
             DamageCalculator damageCalculator = collision.GetComponent<DamageCalculator>();
+
             if (damageCalculator != null)
             {
                 float damage = damageCalculator.CalculateDamage();

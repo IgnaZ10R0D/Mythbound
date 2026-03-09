@@ -123,6 +123,27 @@ public class PowerUpController : MonoBehaviour
             }
         }
     }
+    public int GetRelevantThreshold(int currentPoints)
+    {
+        int nextThreshold = int.MaxValue;
+        int highestThreshold = 0;
+
+        foreach (var powerUpData in powerUps)
+        {
+            int threshold = powerUpData.thresholdPoints;
+
+            if (threshold > highestThreshold)
+                highestThreshold = threshold;
+
+            if (threshold > currentPoints && threshold < nextThreshold)
+                nextThreshold = threshold;
+        }
+
+        if (nextThreshold == int.MaxValue)
+            return highestThreshold;
+
+        return nextThreshold;
+    }
 }
 
 

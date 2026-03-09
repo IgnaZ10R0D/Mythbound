@@ -21,6 +21,9 @@ public class EnemyAnimationController : MonoBehaviour
 
     private Sprite[] currentAnimation;
 
+    private Vector3 lastPosition;
+    private bool isMoving;
+
     public enum State
     {
         Idle,
@@ -36,11 +39,15 @@ public class EnemyAnimationController : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        lastPosition = transform.position;
         PlayIdle();
     }
 
     void Update()
     {
+        DetectMovement();
+        UpdateAnimation();
+
         if (currentAnimation == null || currentAnimation.Length == 0)
             return;
 
@@ -59,6 +66,40 @@ public class EnemyAnimationController : MonoBehaviour
 
             if (spriteRenderer != null)
                 spriteRenderer.sprite = currentAnimation[frame];
+        }
+    }
+
+    void DetectMovement()
+    {
+        Vector3 delta = transform.position - lastPosition;
+
+        isMoving = delta.magnitude > 0.001f;
+
+        if (spriteRenderer != null)
+        {
+            if (delta.x > 0.01f)
+                spriteRenderer.flipX = true;
+            else if (delta.x < -0.01f)
+                spriteRenderer.flipX = false;
+        }
+
+        lastPosition = transform.position;
+    }
+
+    void UpdateAnimation()
+    {
+        if (state == State.AttackStart || state == State.AttackLoop || state == State.AttackEnd)
+            return;
+
+        if (isMoving)
+        {
+            if (state != State.Move)
+                PlayMove();
+        }
+        else
+        {
+            if (state != State.Idle)
+                PlayIdle();
         }
     }
 
@@ -88,7 +129,7 @@ public class EnemyAnimationController : MonoBehaviour
     {
         if (anim == null || anim.Length == 0)
         {
-            anim = idle; 
+            anim = idle;
             newState = State.Idle;
         }
 
@@ -153,6 +194,7 @@ public class EnemyAnimationController : MonoBehaviour
         else
             PlayReverse(currentAttack.start);
     }
+
     public void PlayAttackMove(int index = 0)
     {
         if (attackMoves == null || attackMoves.Length == 0)
@@ -183,9 +225,3 @@ public class EnemyAnimationController : MonoBehaviour
         Play(reversed, State.AttackEnd);
     }
 }
-
-
-
-
-
-
