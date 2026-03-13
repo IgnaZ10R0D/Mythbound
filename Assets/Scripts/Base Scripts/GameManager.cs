@@ -4,24 +4,37 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviour
 {
     public int totalScore = 0;
-    private static GameManager instance;
-    public static GameManager Instance => instance;
+    private static GameManager _instance;
+    public static GameManager Instance => _instance;
 
     private const string ExtraStageKey = "isExtraStageUnlocked";
-    private bool isExtraStageUnlocked;
+    private bool _isExtraStageUnlocked;
+
+    // ---------- RUN STATE ----------
+    private Dictionary<string, int> levelKills = new();
+    private Dictionary<string, bool> levelFlags = new();
+
+    private bool _badEndUnlocked = false;
+
+    public bool BadEndUnlocked => _badEndUnlocked;
+
+    private const int RequiredLevelsForBadEnd = 3;
+
+    // --------------------------------
 
     private void Awake()
     {
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
-            isExtraStageUnlocked = PlayerPrefs.GetInt(ExtraStageKey, 0) == 1;
+            _isExtraStageUnlocked = PlayerPrefs.GetInt(ExtraStageKey, 0) == 1;
         }
         else
         {
@@ -34,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (instance == this)
+        if (_instance == this)
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
@@ -44,8 +57,10 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name == "MainMenu")
         {
+            ResetRunState();
             ResetPointsToDefault();
             ResetTotalScore();
+
             if (this != null && gameObject != null && isActiveAndEnabled)
             {
                 StartCoroutine(RestoreDefaultUISelection());
@@ -53,14 +68,69 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ---------- RUN STATE METHODS ----------
+
+    public void RegisterEnemyKill(string levelID)
+    {
+        if (!levelKills.ContainsKey(levelID))
+            levelKills[levelID] = 0;
+
+        levelKills[levelID]++;
+    }
+
+    public int GetKills(string levelID)
+    {
+        if (!levelKills.ContainsKey(levelID))
+            return 0;
+
+        return levelKills[levelID];
+    }
+
+    public void ActivateSomethingChanged(string levelID)
+    {
+        if (!levelFlags.ContainsKey(levelID))
+            levelFlags[levelID] = false;
+
+        if (levelFlags[levelID])
+            return;
+
+        levelFlags[levelID] = true;
+
+        EvaluateBadEnd();
+    }
+
+    public bool HasSomethingChanged(string levelID)
+    {
+        return levelFlags.ContainsKey(levelID) && levelFlags[levelID];
+    }
+
+    private void EvaluateBadEnd()
+    {
+        int count = levelFlags.Values.Count(v => v);
+
+        if (count >= RequiredLevelsForBadEnd)
+        {
+            _badEndUnlocked = true;
+        }
+    }
+
+    public void ResetRunState()
+    {
+        levelKills.Clear();
+        levelFlags.Clear();
+        _badEndUnlocked = false;
+    }
+
+    // ---------------------------------------
+
     public void ClearedMainStory()
     {
-        isExtraStageUnlocked = true;
+        _isExtraStageUnlocked = true;
         PlayerPrefs.SetInt(ExtraStageKey, 1);
         PlayerPrefs.Save();
     }
 
-    public bool IsExtraStageUnlocked() => isExtraStageUnlocked;
+    public bool IsExtraStageUnlocked() => _isExtraStageUnlocked;
 
     public void ResetTotalScore()
     {
@@ -114,8 +184,3 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 }
-
-
-
-
-

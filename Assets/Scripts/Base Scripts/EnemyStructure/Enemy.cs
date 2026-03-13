@@ -27,8 +27,31 @@ public class Enemy : MonoBehaviour
     private int currentTakeDamageIndex = 0;
     private int currentDieIndex = 0;
 
-    public float CurrentHealth => _health[_currentHealthIndex];
-    public float MaxHealth => _health.Length > 0 ? _health[_currentHealthIndex] : 0f;
+    private bool isDead = false;
+
+    public bool IsDead => isDead;
+
+    public float CurrentHealth
+    {
+        get
+        {
+            if (_currentHealthIndex >= _health.Length)
+                return 0f;
+
+            return _health[_currentHealthIndex];
+        }
+    }
+
+    public float MaxHealth
+    {
+        get
+        {
+            if (_currentHealthIndex >= _health.Length)
+                return 0f;
+
+            return _health[_currentHealthIndex];
+        }
+    }
 
     void Start()
     {
@@ -45,12 +68,17 @@ public class Enemy : MonoBehaviour
         if (HealthIndex != _currentHealthIndex)
             HealthIndex = _currentHealthIndex;
 
-        if (_currentHealthIndex < _health.Length && _health[_currentHealthIndex] <= 0)
+        if (!isDead &&
+            _currentHealthIndex < _health.Length &&
+            _health[_currentHealthIndex] <= 0)
+        {
             AdvancePhase();
+        }
     }
 
     public void TakeDamage(float damage)
     {
+        if (isDead) return;
         if (_currentHealthIndex >= _health.Length) return;
 
         _health[_currentHealthIndex] -= damage;
@@ -66,10 +94,15 @@ public class Enemy : MonoBehaviour
 
     private void AdvancePhase()
     {
+        if (isDead) return;
+
         _currentHealthIndex++;
 
         if (_currentHealthIndex >= _health.Length)
+        {
+            isDead = true;
             Die();
+        }
     }
 
     private IEnumerator DamageFlash()
