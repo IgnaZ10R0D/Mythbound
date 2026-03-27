@@ -18,10 +18,18 @@ public class DialogueManager : MonoBehaviour
         public bool isTransparent;
     }
 
-    [Header("Dialogue Data")]
+    [Header("Level Info")]
+    public string levelID;
+
+    [Header("Dialogue Data - Normal")]
     public DialogueLine[] dialogueLines;
     public DialogueImage[] leftImages;
     public DialogueImage[] rightImages;
+
+    [Header("Dialogue Data - Alternate")]
+    public DialogueLine[] altDialogueLines;
+    public DialogueImage[] altLeftImages;
+    public DialogueImage[] altRightImages;
 
     [Header("UI References")]
     public Image leftImageUI;
@@ -31,9 +39,38 @@ public class DialogueManager : MonoBehaviour
     private int currentIndex = 0;
     private bool isActive = false;
 
+    // Active Sets
+    private DialogueLine[] activeLines;
+    private DialogueImage[] activeLeft;
+    private DialogueImage[] activeRight;
+
     public void BeginDialogue()
     {
-        if (dialogueText == null || dialogueLines == null || dialogueLines.Length == 0)
+        if (dialogueText == null)
+            return;
+
+        bool useAlt = false;
+
+        if (GameManager.Instance != null && !string.IsNullOrEmpty(levelID))
+        {
+            useAlt = GameManager.Instance.HasSomethingChanged(levelID);
+        }
+
+        // Choose the dialogue set
+        if (useAlt)
+        {
+            activeLines = altDialogueLines;
+            activeLeft = altLeftImages;
+            activeRight = altRightImages;
+        }
+        else
+        {
+            activeLines = dialogueLines;
+            activeLeft = leftImages;
+            activeRight = rightImages;
+        }
+
+        if (activeLines == null || activeLines.Length == 0)
             return;
 
         currentIndex = 0;
@@ -63,13 +100,13 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowDialogue(int index)
     {
-        if (index >= dialogueLines.Length)
+        if (index >= activeLines.Length)
         {
             EndDialogue();
             return;
         }
 
-        DialogueLine line = dialogueLines[index];
+        DialogueLine line = activeLines[index];
         if (line == null)
         {
             currentIndex++;
@@ -83,19 +120,19 @@ public class DialogueManager : MonoBehaviour
         c.a = line.alphaOverride;
         dialogueText.color = c;
 
-        if (leftImageUI != null && index < leftImages.Length && leftImages[index] != null)
+        if (leftImageUI != null && index < activeLeft.Length && activeLeft[index] != null)
         {
-            leftImageUI.sprite = leftImages[index].sprite;
+            leftImageUI.sprite = activeLeft[index].sprite;
             Color lc = leftImageUI.color;
-            lc.a = leftImages[index].isTransparent ? 0.3f : 1f;
+            lc.a = activeLeft[index].isTransparent ? 0.3f : 1f;
             leftImageUI.color = lc;
         }
 
-        if (rightImageUI != null && index < rightImages.Length && rightImages[index] != null)
+        if (rightImageUI != null && index < activeRight.Length && activeRight[index] != null)
         {
-            rightImageUI.sprite = rightImages[index].sprite;
+            rightImageUI.sprite = activeRight[index].sprite;
             Color rc = rightImageUI.color;
-            rc.a = rightImages[index].isTransparent ? 0.3f : 1f;
+            rc.a = activeRight[index].isTransparent ? 0.3f : 1f;
             rightImageUI.color = rc;
         }
     }

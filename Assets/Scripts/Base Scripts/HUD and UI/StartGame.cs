@@ -71,6 +71,3 @@ public class StartGame : MonoBehaviour
         StartCoroutine(SelectOnNextFrame(this.gameObject));
     }
 }
-
-
-

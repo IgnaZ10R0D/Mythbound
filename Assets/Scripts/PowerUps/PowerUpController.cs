@@ -145,5 +145,3 @@ public class PowerUpController : MonoBehaviour
         return nextThreshold;
     }
 }
-
-

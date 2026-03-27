@@ -49,7 +49,7 @@ public class PointManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"PointManager: Listener inválido removido ({e.Message})");
+                Debug.LogWarning($"PointManager: Listener invï¿½lido removido ({e.Message})");
                 OnPointsChanged -= (Action<int>)d;
             }
         }

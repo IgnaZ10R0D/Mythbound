@@ -45,10 +45,18 @@ public class PowerUpUIController : MonoBehaviour
         {
             GameObject iconGO = Instantiate(iconPrefab, iconParent);
             Image img = iconGO.GetComponent<Image>();
-            img.sprite = data.icon;
-            img.color = Color.red * 0.7f;
-            activeIcons[data.displayName] = img;
 
+            img.sprite = data.icon;
+
+            img.type = Image.Type.Filled;
+            img.fillMethod = Image.FillMethod.Radial360;
+            img.fillOrigin = (int)Image.Origin360.Top;
+            img.fillClockwise = true;
+            img.fillAmount = 0f;
+
+            img.color = Color.red * 0.7f;
+
+            activeIcons[data.displayName] = img;
             hasUnlocked[data.displayName] = false;
         }
     }
@@ -56,15 +64,19 @@ public class PowerUpUIController : MonoBehaviour
     public void UpdatePowerUpIcons(int currentPoints)
     {
         bool anyAvailable = false;
+        int previousThreshold = 0;
 
         foreach (var data in powerUps)
         {
             if (!activeIcons.ContainsKey(data.displayName)) continue;
 
             Image icon = activeIcons[data.displayName];
-            bool available = currentPoints >= data.thresholdPoints;
+
+            int currentThreshold = data.thresholdPoints;
+            bool available = currentPoints >= currentThreshold;
             bool wasUnlocked = hasUnlocked[data.displayName];
 
+            // 🔔 Evento de unlock
             if (available && !wasUnlocked)
             {
                 hasUnlocked[data.displayName] = true;
@@ -74,14 +86,37 @@ public class PowerUpUIController : MonoBehaviour
             else if (!available && wasUnlocked)
             {
                 hasUnlocked[data.displayName] = false;
+
                 if (currentlySelected == data.powerUp as ActiveLauncher)
-                    currentlySelected = null; 
+                    currentlySelected = null;
             }
 
-            icon.color = available ? Color.white : (Color.red * 0.7f);
-
             if (available)
+            {
+                icon.fillAmount = 1f;
+                icon.color = Color.white;
                 anyAvailable = true;
+            }
+            else
+            {
+                bool isNext = currentPoints < currentThreshold &&
+                              currentPoints >= previousThreshold;
+
+                if (isNext)
+                {
+                    float progress = GetProgress(currentPoints, currentThreshold, previousThreshold);
+
+                    icon.fillAmount = progress;
+                    icon.color = Color.Lerp(Color.red * 0.7f, Color.white, progress);
+                }
+                else
+                {
+                    icon.fillAmount = 0f;
+                    icon.color = Color.red * 0.7f;
+                }
+            }
+
+            previousThreshold = currentThreshold;
         }
 
         if (currentlySelected == null && anyAvailable)
@@ -97,11 +132,19 @@ public class PowerUpUIController : MonoBehaviour
         }
 
         if (!anyAvailable)
-        {
             currentlySelected = null;
-        }
 
         HighlightSelectedPowerUp(currentlySelected);
+    }
+
+    private float GetProgress(int currentPoints, int currentThreshold, int previousThreshold)
+    {
+        if (currentThreshold == previousThreshold) return 1f;
+
+        float range = currentThreshold - previousThreshold;
+        float progress = (currentPoints - previousThreshold) / range;
+
+        return Mathf.Clamp01(progress);
     }
 
     private void ShowUnlockText(string displayName)
@@ -110,6 +153,7 @@ public class PowerUpUIController : MonoBehaviour
 
         GameObject textGO = Instantiate(unlockTextPrefab, unlockTextParent);
         Text textComp = textGO.GetComponent<Text>();
+
         if (textComp != null)
             textComp.text = $"{displayName} Unlocked!";
 
@@ -126,7 +170,7 @@ public class PowerUpUIController : MonoBehaviour
 
         while (timer < duration)
         {
-            if (txt == null) yield break; 
+            if (txt == null) yield break;
 
             timer += Time.deltaTime;
             float t = timer / duration;
@@ -134,6 +178,7 @@ public class PowerUpUIController : MonoBehaviour
             float r = Mathf.Abs(Mathf.Sin(timer * 5f));
             float g = Mathf.Abs(Mathf.Sin(timer * 3f));
             float b = Mathf.Abs(Mathf.Sin(timer * 4f));
+
             txt.color = new Color(r, g, b, Mathf.Lerp(1f, 0f, t));
 
             float scaleMultiplier = 1f + 0.5f * Mathf.Sin(timer * 10f);
@@ -175,9 +220,13 @@ public class PowerUpUIController : MonoBehaviour
             Image icon = activeIcons[data.displayName];
 
             if (data.powerUp == selectedPowerUp)
-                icon.color = Color.yellow; 
+            {
+                icon.color = Color.yellow;
+            }
             else
+            {
                 icon.color = hasUnlocked[data.displayName] ? Color.white : (Color.red * 0.7f);
+            }
         }
     }
 

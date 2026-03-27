@@ -6,11 +6,11 @@ public class ExplosionVFX : MonoBehaviour
 {
     [SerializeField] private AudioClip soundEffect; 
     [SerializeField] private AudioSource audioSource; 
-    private new ParticleSystem particleSystem;
+    private new ParticleSystem _particleSystem;
 
     void Start()
     {
-        particleSystem = GetComponent<ParticleSystem>();
+        _particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
 
         if (audioSource != null && soundEffect != null)
@@ -18,9 +18,9 @@ public class ExplosionVFX : MonoBehaviour
             audioSource.PlayOneShot(soundEffect);
         }
 
-        if (particleSystem != null)
+        if (_particleSystem != null)
         {
-            Destroy(gameObject, particleSystem.main.duration + particleSystem.main.startLifetime.constantMax);
+            Destroy(gameObject, _particleSystem.main.duration + _particleSystem.main.startLifetime.constantMax);
         }
     }
 }
