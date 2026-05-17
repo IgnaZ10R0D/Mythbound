@@ -9,11 +9,15 @@ public class Bullet : MonoBehaviour
 
     private float currentTimeFactor = 1f;
     private SpriteRenderer spriteRenderer;
-    
+
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem despawnEffect; 
+    // 👆 IMPORTANTE: ahora es ParticleSystem prefab
+
     public Transform Target { get; private set; }
 
     // =========================================================
-    // Behaviour system (profiles + runtime instances)
+    // Behaviour system
     // =========================================================
     private BulletBehaviour _behaviourProfile;
     private BulletActivationCondition _conditionProfile;
@@ -46,12 +50,11 @@ public class Bullet : MonoBehaviour
         if (TimeManager.Instance != null)
             TimeManager.Instance.OnTimeWarpChanged -= OnTimeWarpChanged;
 
-        // --- Total cleaning for the pool ---
         _behaviourProfile = null;
         _conditionProfile = null;
-
         _behaviourInstance = null;
         _conditionInstance = null;
+        Target = null;
     }
 
     private void OnTimeWarpChanged(float newFactor)
@@ -60,7 +63,7 @@ public class Bullet : MonoBehaviour
     }
 
     // =========================================================
-    // Data injection (ShotAttack)
+    // Injection
     // =========================================================
     public void InjectBehaviour(
         BulletBehaviour behaviour,
@@ -72,11 +75,9 @@ public class Bullet : MonoBehaviour
         _behaviourInstance = null;
         _conditionInstance = null;
 
-        // Normal bullet
         if (_behaviourProfile == null)
             return;
 
-        // Wait until condition is completed before applying
         if (_conditionProfile != null)
         {
             _conditionInstance = _conditionProfile.CreateInstance();
@@ -84,7 +85,6 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            // No condition = activate immediately
             ActivateBehaviour();
         }
     }
@@ -98,6 +98,11 @@ public class Bullet : MonoBehaviour
         _behaviourInstance.Initialize(this);
     }
 
+    public void InjectTarget(Transform target)
+    {
+        Target = target;
+    }
+
     public void ApplyVisual(RadialShotSettings settings)
     {
         if (spriteRenderer != null && settings.BulletSprite != null)
@@ -106,43 +111,44 @@ public class Bullet : MonoBehaviour
         transform.localScale = settings.BulletScale;
     }
 
+    // =========================================================
+    // Update
+    // =========================================================
     private void Update()
     {
-        // --- Base movement ---
         transform.position += (Vector3)(Velocity * currentTimeFactor * Time.deltaTime);
 
-        // --- Establish conditions ---
         if (_conditionInstance != null && _behaviourInstance == null)
         {
             _conditionInstance.Tick(Time.deltaTime);
 
             if (_conditionInstance.IsActive)
-            {
                 ActivateBehaviour();
-            }
         }
 
-        // --- Execute active behaviour ---
         if (_behaviourInstance != null)
-        {
             _behaviourInstance.Tick(Time.deltaTime);
-        }
 
-        // --- Lifetime ---
         _lifeTime += Time.deltaTime;
         if (_lifeTime >= MaxLifeTime)
-            Disable();
+            Despawn();
     }
 
-    private void Disable()
+    // =========================================================
+    // DESPAWN
+    // =========================================================
+    public void Despawn()
     {
-        _lifeTime = 0f;
+        Vector3 pos = transform.position;
+
+        if (despawnEffect != null && VFXPool.Instance != null)
+        {
+            // 🔥 AQUÍ está lo importante
+            ExplosionVFX vfx = VFXPool.Instance.Get(despawnEffect);
+            vfx.Play(pos);
+        }
+
         gameObject.SetActive(false);
     }
-    public void InjectTarget(Transform target)
-    {
-        Target = target;
-    }
-
 }
 

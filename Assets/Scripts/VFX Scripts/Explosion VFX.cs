@@ -1,26 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ParticleSystem))]
 public class ExplosionVFX : MonoBehaviour
 {
-    [SerializeField] private AudioClip soundEffect; 
-    [SerializeField] private AudioSource audioSource; 
-    private new ParticleSystem _particleSystem;
+    private ParticleSystem ps;
+    private bool pendingReturn = false;
 
-    void Start()
+    public void Init()
     {
-        _particleSystem = GetComponent<ParticleSystem>();
-        audioSource = GetComponent<AudioSource>();
+        ps = GetComponent<ParticleSystem>();
+        var main = ps.main;
+        main.stopAction = ParticleSystemStopAction.Callback;
+    }
 
-        if (audioSource != null && soundEffect != null)
-        {
-            audioSource.PlayOneShot(soundEffect);
-        }
+    public void Play(Vector3 position)
+    {
+        transform.position = position;
+        pendingReturn = false;
+        ps.Play();
+    }
 
-        if (_particleSystem != null)
+    private void OnParticleSystemStopped()
+    {
+        pendingReturn = true;
+    }
+
+    private void Update()
+    {
+        if (pendingReturn)
         {
-            Destroy(gameObject, _particleSystem.main.duration + _particleSystem.main.startLifetime.constantMax);
+            pendingReturn = false;
+            VFXPool.Instance.Return(this); // 👈 NO usa referencias internas
         }
     }
 }

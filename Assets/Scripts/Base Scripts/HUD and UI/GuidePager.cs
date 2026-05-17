@@ -6,8 +6,8 @@ public class GuidePager : MonoBehaviour
     [SerializeField] private List<GameObject> pages;
     [SerializeField] private GuideOpener guideOpener;
 
-    private int currentPage = 0;
-    private bool isActive = false;
+    private int _currentPage;
+    private bool _isActive;
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class GuidePager : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive) return;
+        if (!_isActive) return;
 
         KeyCode shootKey = InputManager.Instance.GetKey("Shoot");
 
@@ -26,18 +26,18 @@ public class GuidePager : MonoBehaviour
         }
     }
 
-    private void NextPage()
+    public void NextPage()
     {
-        currentPage++;
+        _currentPage++;
 
-        if (currentPage >= pages.Count)
+        if (_currentPage >= pages.Count)
         {
-            isActive = false;
+            _isActive = false;
             StartCoroutine(guideOpener.CloseGuide());
             return;
         }
 
-        ShowPage(currentPage);
+        ShowPage(_currentPage);
     }
 
     private void ShowPage(int index)
@@ -48,8 +48,8 @@ public class GuidePager : MonoBehaviour
 
     public void ResetGuide()
     {
-        currentPage = 0;
-        ShowPage(currentPage);
-        isActive = true;
+        _currentPage = 0;
+        ShowPage(_currentPage);
+        _isActive = true;
     }
 }

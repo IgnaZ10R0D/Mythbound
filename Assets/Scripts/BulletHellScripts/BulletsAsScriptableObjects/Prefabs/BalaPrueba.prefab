@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocity: {x: 0, y: 0}
+  despawnEffect: {fileID: 7086229229627504786, guid: 4373a42029b29e6419f279964247d627, type: 3}
 --- !u!61 &-4925630971056260127
 BoxCollider2D:
   m_ObjectHideFlags: 0

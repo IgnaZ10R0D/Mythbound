@@ -27,7 +27,7 @@ public class BulletWipe : MonoBehaviour
             Bullet bullet = hit.GetComponent<Bullet>();
             if (bullet != null)
             {
-                bullet.gameObject.SetActive(false);
+                bullet.Despawn(); 
             }
         }
 
